@@ -16,7 +16,7 @@ export const Content = styled.div`
   max-width: 315px;
   text-align: center;
 
-  form {
+  /* form {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
@@ -40,7 +40,7 @@ export const Content = styled.div`
       align-self: flex-start;
       margin: 0 0 10px;
       font-weight: bold;
-    }
+    } */
 
     button {
       margin: 5px 0 0;

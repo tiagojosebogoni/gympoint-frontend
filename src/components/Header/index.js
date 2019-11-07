@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 // import Notifications from '~/components/Notifications';
 import logo from '~/assets/logo-header.png';
 
-import { Container, Content, Profile } from './styles';
+import { Container, Content, Profile, Menu } from './styles';
 import { signOut } from '~/store/modules/auth/actions';
 
-export default function Header() {
+export default function Header({ history }) {
+  console.tron.log('History: ', history);
   const profile = useSelector(state => state.user.profile);
   const dispacth = useDispatch();
 
@@ -26,16 +27,24 @@ export default function Header() {
 
           <ul>
             <li>
-              <Link to="alunos">ALUNOS</Link>
+              <Menu activeStyle={{ color: 'black' }} to="/alunos">
+                ALUNOS
+              </Menu>
             </li>
             <li>
-              <Link to="planos">PLANOS</Link>
+              <Menu activeStyle={{ color: 'black' }} to="/planos">
+                PLANOS
+              </Menu>
             </li>
             <li>
-              <Link to="matriculas">MATRÍCULAS</Link>
+              <Menu activeStyle={{ color: 'black' }} to="/matriculas">
+                MATRÍCULAS
+              </Menu>
             </li>
             <li>
-              <Link to="help">PEDIDOS DE AUXÍLIO</Link>
+              <Menu activeStyle={{ color: 'black' }} to="/help">
+                PEDIDOS DE AUXÍLIO
+              </Menu>
             </li>
           </ul>
         </nav>

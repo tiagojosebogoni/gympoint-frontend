@@ -1,8 +1,11 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { darken } from 'polished';
-// import colors from '~/styles/colors';
 
-export const CustomButton = styled.button`
+export const CustomButtonLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 34px;
   background: ${props => props.color};
   border: 0;
@@ -25,6 +28,3 @@ export const CustomButton = styled.button`
     align-items: center;
   }
 `;
-
-// background: ${props => props.color};
-/* background: ${darken(0.05, props => props.color)}; */

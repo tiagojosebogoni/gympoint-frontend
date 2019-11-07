@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import colors from '~/styles/colors';
 
 export const CustomTd = styled.td`
-  text-align: ${props => props.align || 'left'};
+  text-align: ${props => props.align};
   color: ${colors.tableTd};
   padding: 16px 0px;
   border-bottom: 1px solid ${colors.tableBorder};

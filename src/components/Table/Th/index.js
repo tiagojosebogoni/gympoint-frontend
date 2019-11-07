@@ -2,10 +2,17 @@ import React from 'react';
 import PropsTypes from 'prop-types';
 import { CustomTh } from './styles';
 
-export default function Th({ children }) {
-  return <CustomTh>{children}</CustomTh>;
+export default function Th({ children, align }) {
+  return <CustomTh align={align}>{children}</CustomTh>;
 }
 
-Th.propsTypes = {
-  children: PropsTypes.oneOfType([PropsTypes.element, PropsTypes.string]),
+Th.defaultProps = {
+  align: 'left',
+};
+
+Th.PropsTypes = {
+  children: PropsTypes.oneOfType([
+    PropsTypes.arrayOf(PropsTypes.node),
+    PropsTypes.node,
+  ]).isRequired,
 };

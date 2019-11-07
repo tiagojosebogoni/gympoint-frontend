@@ -1,25 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 import { MdAdd } from 'react-icons/md';
-import { debounce } from 'throttle-debounce';
 
-import Container from '~/components/Container';
+import Container from '~/components/Layout/Container';
 import Title from '~/components/Title';
-import Button from '~/components/Button';
 import Table from '~/components/Table';
 import Thead from '~/components/Table/Thead';
 import Th from '~/components/Table/Th';
 import Tbody from '~/components/Table/Tbody';
+import Tr from '~/components/Table/Tr';
 import Td from '~/components/Table/Td';
-
-import { Header, Controls } from './styles';
 import InputSearch from '~/components/InputSearch';
 import Loading from '~/components/Loading';
-import { studentsSearchRequest } from '~/store/modules/student/actions';
-import Tr from '~/components/Table/Tr';
+import { HeaderPage } from '~/components/HeaderPage/styles';
+import { Controls } from '~/components/Controls/styles';
 
-export default function Student() {
+import colors from '~/styles/colors';
+
+import {
+  studentsSearchRequest,
+  studentsDeleteRequest,
+} from '~/store/modules/student/actions';
+import ButtonLink from '~/components/ButtonLink';
+import Alert from '~/util/alert';
+
+export default function StudentList() {
   const students = useSelector(state => state.student.students);
   const loading = useSelector(state => state.student.loading);
   const dispatch = useDispatch();
@@ -29,33 +36,35 @@ export default function Student() {
   }, []); // eslint-disable-line
 
   function handleSearchMain(value) {
-    // setTimeout(() => {
-    //   dispatch(studentsSearchRequest({ searchName: value }));
-    // }, 3000);
-    // debounce(3000, value => {
-    debounce(300, () => {
-      console.log('debounce');
-    });
     dispatch(studentsSearchRequest({ searchName: value }));
-    // });
+  }
+
+  function handleDelete(id) {
+    Alert.delete().then(result => {
+      if (result.value) {
+        dispatch(studentsDeleteRequest(id));
+      }
+    });
   }
 
   return (
     <Container>
-      <Header>
+      <HeaderPage>
         <Title>Gerenciando Alunos</Title>
         <Controls>
-          <Button>
+          <ButtonLink pathRoute="/alunos/new">
             <MdAdd size={24} color="#fff" title="Adicionar Novo Aluno" />
             <span>Cadastrar</span>
-          </Button>
+          </ButtonLink>
+
+          {/* <Link to="/alunos/new">Novo</Link> */}
 
           <InputSearch
             handleSearch={handleSearchMain}
             placeholder="Buscar aluno"
           />
         </Controls>
-      </Header>
+      </HeaderPage>
 
       {loading ? (
         <Loading>Carregando...</Loading>
@@ -76,10 +85,20 @@ export default function Student() {
                 <Td>{student.email}</Td>
                 <Td align="center">{student.age}</Td>
                 <Td>
-                  <Link to="/alunos/1">editar</Link>
+                  <Link
+                    style={{ color: colors.edit }}
+                    to={`/alunos/${student.id}/edit`}
+                  >
+                    editar
+                  </Link>
                 </Td>
                 <Td>
-                  <Link to="/">apagar</Link>
+                  <a
+                    style={{ color: colors.delete }}
+                    onClick={() => handleDelete(student.id)}
+                  >
+                    apagar
+                  </a>
                 </Td>
               </Tr>
             ))}

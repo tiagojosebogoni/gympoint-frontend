@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import colors from '~/styles/colors';
 
 export const Container = styled.div`
@@ -35,17 +36,21 @@ export const Content = styled.div`
         margin-right: 20px;
       }
     }
-
-    a {
-      font-weight: bold;
-      color: ${colors.placeholder};
-    }
   }
 
   aside {
     display: flex;
     align-items: center;
   }
+`;
+
+export const Menu = styled(NavLink).attrs(props => ({
+  // size: console.tron.log(props.match),
+}))`
+  /* a { */
+  font-weight: bold;
+  color: ${colors.placeholder};
+  /* } */
 `;
 
 export const Profile = styled.div`
