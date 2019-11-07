@@ -6,7 +6,7 @@ import { MdArrowBack } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
 import * as Yup from 'yup';
 
-import Container from '~/components/Layout/Container';
+import { Container, Row, Column } from '~/components/Grid';
 import Title from '~/components/Title';
 import { HeaderPage } from '~/components/HeaderPage/styles';
 import { Controls } from '~/components/Controls/styles';
@@ -17,8 +17,6 @@ import Button from '~/components/Button';
 import colors from '~/styles/colors';
 import { Panel } from '~/components/Panel/styles';
 import Label from '~/components/Label';
-import { Row } from '~/components/Layout/Row/styles';
-import { Column } from '~/components/Layout/Column/styles';
 import { FormGroup } from '~/components/FormGroup/styles';
 
 import { studentsSaveRequest } from '~/store/modules/student/actions';
@@ -96,13 +94,13 @@ export default function StudentForm() {
             placeholder="Digite seu endereço de e-Mail"
           />
           <Row>
-            <Column grid="4">
+            <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>IDADE</Label>
                 <Input type="number" name="age" placeholder="Sua Idade" />
               </FormGroup>
             </Column>
-            <Column grid="4">
+            <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PESO (em kg)</Label>
                 <Input
@@ -113,7 +111,7 @@ export default function StudentForm() {
                 />
               </FormGroup>
             </Column>
-            <Column grid="4">
+            <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>ALTURA</Label>
                 <Input

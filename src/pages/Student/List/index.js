@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import { MdAdd } from 'react-icons/md';
 
-import Container from '~/components/Layout/Container';
+import { Container } from '~/components/Grid';
 import Title from '~/components/Title';
 import Table from '~/components/Table';
 import Thead from '~/components/Table/Thead';
@@ -94,6 +94,7 @@ export default function StudentList() {
                 </Td>
                 <Td>
                   <a
+                    href
                     style={{ color: colors.delete }}
                     onClick={() => handleDelete(student.id)}
                   >
