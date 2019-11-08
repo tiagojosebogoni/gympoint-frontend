@@ -58,6 +58,10 @@ export default createGlobalStyle`
         background:  ${lighten(0.45, colors.focus)}
         border: 1px solid ${colors.focus};
       }
+
+      &:disabled{
+        background: ${colors.disabled}
+      }
   }
 
   form {

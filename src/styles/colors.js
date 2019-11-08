@@ -9,6 +9,7 @@ export default {
   delete: '#DE3B3B',
 
   linkActive: '#191920',
+  disabled: '#dddddd',
 
   focus: '#edff00',
   bg: '#ebebeb',
