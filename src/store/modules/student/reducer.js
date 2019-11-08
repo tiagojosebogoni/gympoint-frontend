@@ -1,7 +1,13 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  students: [],
+  students: {
+    page: 1,
+    perPage: 5,
+    total: 0,
+    totalPage: 0,
+    data: [],
+  },
   student: {},
   loading: false,
 };

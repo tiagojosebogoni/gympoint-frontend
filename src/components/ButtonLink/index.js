@@ -4,9 +4,9 @@ import { CustomButtonLink } from './styles';
 
 import colors from '~/styles/colors';
 
-export default function ButtonLink({ children, pathRoute, color }) {
+export default function ButtonLink({ children, to, color, ...rest }) {
   return (
-    <CustomButtonLink to={pathRoute} color={color}>
+    <CustomButtonLink to={to} color={color} {...rest}>
       <span>{children}</span>
     </CustomButtonLink>
   );
@@ -14,10 +14,11 @@ export default function ButtonLink({ children, pathRoute, color }) {
 
 ButtonLink.defaultProps = {
   color: colors.primary,
+  to: '/',
 };
 
 CustomButtonLink.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  pathRoute: PropTypes.string,
+  to: PropTypes.string.isRequired,
   color: PropTypes.string,
 };

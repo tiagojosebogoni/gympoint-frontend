@@ -31,4 +31,6 @@ export const CustomLoading = styled.div`
 export const Message = styled.p`
   margin-top: 8px;
   color: ${colors.primary};
+  font-weight: bold;
+  font-size: 16px;
 `;

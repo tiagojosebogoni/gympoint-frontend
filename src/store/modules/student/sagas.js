@@ -1,6 +1,7 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
+import history from '~/services/history';
 import {
   studentsFailure,
   studentsSearchSuccess,
@@ -10,11 +11,12 @@ import {
 
 function* searchStudents({ payload }) {
   try {
-    const { searchName } = payload.data;
+    const { name, page } = payload.data;
 
     const res = yield call(api.get, 'students', {
       params: {
-        name: searchName || '',
+        name: name || '',
+        page,
       },
     });
 
@@ -28,7 +30,7 @@ function* searchStudents({ payload }) {
 function* saveStudent({ payload }) {
   const { id } = payload.data;
 
-  console.tron.log('ID: ', id);
+  // console.tron.log('ID: ', id);
 
   if (id) {
     yield updateStudent(payload.data);
@@ -38,12 +40,14 @@ function* saveStudent({ payload }) {
 }
 
 function* addStudent(data) {
-  console.tron.log('Add student: ', data);
+  // console.tron.log('Add student: ', data);
   try {
     const res = yield call(api.post, 'students', data);
 
     toast.success('Aluno cadastrado com sucesso');
     yield put(studentsSaveSuccess(res.data));
+
+    history.push('/alunos');
   } catch (error) {
     toast.error('Erro cadastrar aluno!');
     yield put(studentsFailure());
@@ -51,7 +55,7 @@ function* addStudent(data) {
 }
 
 function* updateStudent(data) {
-  console.tron.log('Update student: ', data);
+  // console.tron.log('Update student: ', data);
   try {
     const res = yield call(api.put, `students/${data.id}`, data);
 

@@ -1,14 +1,6 @@
-import React from 'react';
-import PropsTypes from 'prop-types';
-import { CustomTable } from './styles';
-
-export default function Table({ children }) {
-  return <CustomTable>{children}</CustomTable>;
-}
-
-Table.PropsTypes = {
-  children: PropsTypes.oneOfType([
-    PropsTypes.arrayOf(PropsTypes.node),
-    PropsTypes.node,
-  ]).isRequired,
-};
+export { default as Table } from './Table';
+export { default as Thead } from './Thead';
+export { default as Th } from './Th';
+export { default as Tbody } from './Tbody';
+export { default as Tr } from './Tr';
+export { default as Td } from './Td';

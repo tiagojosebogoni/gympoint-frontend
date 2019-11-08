@@ -1,15 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import colors from '~/styles/colors';
 // import Notifications from '~/components/Notifications';
 import logo from '~/assets/logo-header.png';
 
 import { Container, Content, Profile, Menu } from './styles';
 import { signOut } from '~/store/modules/auth/actions';
 
-export default function Header({ history }) {
-  console.tron.log('History: ', history);
+export default function Header() {
   const profile = useSelector(state => state.user.profile);
   const dispacth = useDispatch();
 
@@ -27,22 +26,22 @@ export default function Header({ history }) {
 
           <ul>
             <li>
-              <Menu activeStyle={{ color: 'black' }} to="/alunos">
+              <Menu activeStyle={{ color: colors.linkActive }} to="/alunos">
                 ALUNOS
               </Menu>
             </li>
             <li>
-              <Menu activeStyle={{ color: 'black' }} to="/planos">
+              <Menu activeStyle={{ color: colors.linkActive }} to="/planos">
                 PLANOS
               </Menu>
             </li>
             <li>
-              <Menu activeStyle={{ color: 'black' }} to="/matriculas">
+              <Menu activeStyle={{ color: colors.linkActive }} to="/matriculas">
                 MATRÍCULAS
               </Menu>
             </li>
             <li>
-              <Menu activeStyle={{ color: 'black' }} to="/help">
+              <Menu activeStyle={{ color: colors.linkActive }} to="/help">
                 PEDIDOS DE AUXÍLIO
               </Menu>
             </li>

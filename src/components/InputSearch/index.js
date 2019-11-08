@@ -4,11 +4,7 @@ import { MdSearch } from 'react-icons/md';
 import { Container, Search } from './styles';
 import { debounce } from 'lodash';
 
-export default function InputSearch({
-  handleSearch,
-  timeDebounce,
-  placeholder,
-}) {
+export default function InputSearch({ handleSearch, timeDebounce, ...rest }) {
   const search = debounce(value => handleSearch(value), timeDebounce);
 
   function handleChange(e) {
@@ -18,7 +14,7 @@ export default function InputSearch({
   return (
     <Container>
       <MdSearch size={24} />
-      <Search onChange={handleChange} placeholder={placeholder} />
+      <Search onChange={handleChange} {...rest} />
     </Container>
   );
 }

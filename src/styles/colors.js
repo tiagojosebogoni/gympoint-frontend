@@ -8,6 +8,8 @@ export default {
   edit: '#4D85EE',
   delete: '#DE3B3B',
 
+  linkActive: '#191920',
+
   focus: '#edff00',
   bg: '#ebebeb',
   border: '#dddddd',

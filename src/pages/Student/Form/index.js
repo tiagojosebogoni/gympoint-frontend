@@ -45,7 +45,7 @@ export default function StudentForm() {
   const dispath = useDispatch();
 
   function handleSubmit(data) {
-    console.tron.log('Submit: ', data);
+    // console.tron.log('Submit: ', data);
     dispath(studentsSaveRequest({ ...data, id }));
   }
 
@@ -65,11 +65,11 @@ export default function StudentForm() {
       <HeaderPage>
         <Title>{id > 0 ? 'Edição de Aluno' : 'Cadastro de Aluno'}</Title>
         <Controls>
-          <ButtonLink pathRoute="/alunos" color={colors.second}>
+          <ButtonLink to="/alunos" color={colors.second}>
             <MdArrowBack size={24} color="#fff" />
             <span>Voltar</span>
           </ButtonLink>
-          <Button type="submit" formId="formStudent">
+          <Button type="submit" form="formStudent">
             <MdDone size={24} color="#fff" />
             <span>Salvar</span>
           </Button>
