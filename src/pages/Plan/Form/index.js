@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
-import CurrencyInput from 'react-currency-input';
-import InputMask from 'react-input-mask';
+import React, { useEffect, useState } from 'react';
 
-import { Form, Input, useField } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
@@ -24,6 +22,8 @@ import { FormGroup } from '~/components/FormGroup/styles';
 
 import { plansSaveRequest } from '~/store/modules/plan/actions';
 import api from '~/services/api';
+import InputCurrency from '~/components/InputCurrency';
+import { formatCurrency, numberOnly } from '~/util';
 
 // import { Container } from './styles';
 
@@ -33,31 +33,24 @@ const schema = Yup.object().shape({
     .min(1, 'A duração dever ser no mínimo 1 mês')
     .max(60, 'A duração dever ser no máximo 60 meses')
     .required('A duração em meses é obrigatório'),
-  price: Yup.number().required('O preço é obrigatório'),
+  // price: Yup.string(),
+  // price: Yup.number().required('O preço é obrigatório'),
+  price: Yup.string().required('O preço é obrigatório'),
+  total: Yup.string(),
+  tech: Yup.string(),
+  date: Yup.string(),
 });
 
 export default function PlanForm() {
   const { id } = useParams();
-  const [plan, setPlan] = useState({});
+  const [plan, setPlan] = useState();
+
   const dispath = useDispatch();
-  const [cep, setCep] = useState(null);
-  const [price, setPrice] = useState(null);
 
-  // useEffect(() => {
-  //   registerField({
-  //     name: fieldName,
-  //     ref: ref.current,
-  //     path: 'props.value',
-  //     clearValue: pickerRef => {
-  //       pickerRef.setInputValue(null);
-  //     },
-  //   });
-  // }, [ref.current, fieldName]);
-
-  function handleSubmit(data) {
-    console.log('Plano: ', { ...data, cep, price });
-    alert('ok');
-    // dispath(plansSaveRequest({ ...data, id }));
+  function handleSubmit(data, { resetForm }) {
+    console.log(formatCurrency(data.price));
+    // dispath(plansSaveRequest(data));
+    // resetForm();
   }
 
   useEffect(() => {
@@ -68,17 +61,18 @@ export default function PlanForm() {
       }
 
       loadPlan();
+    } else {
+      setPlan({
+        duration: 1,
+        price: 0.0,
+        total: 0.0,
+      });
     }
   }, [id]);
 
-  function handleCep(e) {
-    setCep(e.target.value);
-  }
-
-  function handlePrice(e) {
-    console.log(e);
-    // setPrice(e.target.value);
-  }
+  // handleCalcTotal() {
+  //   setTot
+  // }
 
   return (
     <Container>
@@ -117,31 +111,31 @@ export default function PlanForm() {
             <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PREÇO MENSAL</Label>
-                <Input name="price" placeholder="60,90" />
+                <InputCurrency name="price" placeholder="60,90" />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PREÇO TOTAL</Label>
-                <Input disabled={true} name="total" placeholder="R$ 1000,00" />
+                <InputCurrency
+                  disabled={true}
+                  name="total"
+                  placeholder="60,90"
+                />
+                {/* <Input disabled={true} name="total" placeholder="R$ 1000,00" /> */}
               </FormGroup>
             </Column>
           </Row>
 
-          <Label>Cep</Label>
-          <InputMask
-            onChange={handleCep}
-            id="cep"
-            name="cep"
-            mask="99999-999"
-          />
-
-          <Label>Preço</Label>
-          <CurrencyInput
-            onChange={handlePrice}
-            decimalSeparator=","
-            thousandSeparator="."
-          />
+          {/* <DatePicker name="date" options={{ format: 'yyyy-mm-dd' }} />
+          <ReactSelect
+            name="tech"
+            options={[
+              { id: 'react', title: 'ReactJS' },
+              { id: 'node', title: 'NodeJS' },
+              { id: 'rn', title: 'React Native' },
+            ]}
+          /> */}
         </Form>
       </Panel>
     </Container>

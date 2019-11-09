@@ -64,6 +64,29 @@ export default createGlobalStyle`
       }
   }
 
+  textarea {
+      background: rgba(255, 255, 255, 1);
+      border: 1px solid ${colors.border};
+      border-radius: 4px;
+      height: 44px;
+      padding: 10px;
+      color: ${colors.input};
+      margin: 0 0 10px;
+
+      &::placeholder {
+        color: ${colors.placeholder};
+      }
+
+      &:focus {
+        background:  ${lighten(0.45, colors.focus)}
+        border: 1px solid ${colors.focus};
+      }
+
+      &:disabled{
+        background: ${colors.disabled}
+      }
+  }
+
   form {
     display: flex;
     flex-direction: column;

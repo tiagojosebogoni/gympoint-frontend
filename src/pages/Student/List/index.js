@@ -24,6 +24,7 @@ import { Panel } from '~/components/Panel/styles';
 import NoResultFound from '~/components/NoResultFound';
 import Pagination from '~/components/Pagination';
 import PaginationInfo from '~/components/Pagination/PaginationInfo';
+import ButtonLikeLink from '~/components/ButtonLikeLink';
 
 export default function StudentList() {
   const [termSearch, setTermSearch] = useState('');
@@ -104,13 +105,12 @@ export default function StudentList() {
                         </Link>
                       </Td>
                       <Td>
-                        <a
-                          href=""
+                        <ButtonLikeLink
                           style={{ color: colors.delete }}
                           onClick={() => handleDelete(student.id)}
                         >
                           apagar
-                        </a>
+                        </ButtonLikeLink>
                       </Td>
                     </Tr>
                   ))}

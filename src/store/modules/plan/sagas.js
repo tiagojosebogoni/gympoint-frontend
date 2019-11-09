@@ -1,7 +1,7 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
-import { formatPrice, getMonthString } from '~/util';
+import { formatCurrencyBR, formatCurrency } from '~/util';
 import api from '~/services/api';
 import history from '~/services/history';
 import {
@@ -24,7 +24,7 @@ function* searchPlans({ payload }) {
 
     const data = res.data.data.map(item => ({
       ...item,
-      priceFormatted: formatPrice(item.price),
+      priceFormatted: formatCurrencyBR(item.price),
       monthString: item.duration === 1 ? 'mês' : 'meses',
     }));
     yield put(plansSearchSuccess({ ...res.data, data }));
@@ -45,7 +45,9 @@ function* savePlan({ payload }) {
 
 function* addPlan(data) {
   try {
-    const res = yield call(api.post, 'plans', data);
+    const dataFormatted = { ...data, price: formatCurrency(data.price) };
+
+    const res = yield call(api.post, 'plans', dataFormatted);
 
     toast.success('Plano cadastrado com sucesso');
     yield put(plansSaveSuccess(res.data));

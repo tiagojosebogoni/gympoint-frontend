@@ -23,6 +23,7 @@ import { Panel } from '~/components/Panel/styles';
 import NoResultFound from '~/components/NoResultFound';
 import Pagination from '~/components/Pagination';
 import PaginationInfo from '~/components/Pagination/PaginationInfo';
+import ButtonLikeLink from '~/components/ButtonLikeLink';
 
 export default function PlanList() {
   const [termSearch, setTermSearch] = useState('');
@@ -105,13 +106,9 @@ export default function PlanList() {
                         </Link>
                       </Td>
                       <Td>
-                        <a
-                          href=""
-                          style={{ color: colors.delete }}
-                          onClick={() => handleDelete(plan.id)}
-                        >
+                        <ButtonLikeLink onClick={() => handleDelete(plan.id)}>
                           apagar
-                        </a>
+                        </ButtonLikeLink>
                       </Td>
                     </Tr>
                   ))}
