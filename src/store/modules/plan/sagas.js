@@ -61,7 +61,8 @@ function* addPlan(data) {
 
 function* updatePlan(data) {
   try {
-    const res = yield call(api.put, `plans/${data.id}`, data);
+    const dataFormatted = { ...data, price: formatCurrency(data.price) };
+    const res = yield call(api.put, `plans/${dataFormatted.id}`, dataFormatted);
 
     toast.success('Plano Atualizado com sucesso');
     yield put(plansSaveSuccess(res.data));
@@ -81,6 +82,7 @@ function* deletePlan({ payload }) {
     yield put(plansDeleteSuccess(id));
   } catch (error) {
     toast.error('Erro remover planos!');
+    // console.log(error);
     yield put(plansFailure());
   }
 }

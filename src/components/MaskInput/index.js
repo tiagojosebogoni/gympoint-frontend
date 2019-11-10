@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import CurrencyInput from 'react-currency-input';
+import InputMask from 'react-input-mask';
 
 import { useField } from '@rocketseat/unform';
 
-export default function InputCurrency({ name, disabled, setChange }) {
+export default function MaskInput({ name, ...rest }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
@@ -21,21 +21,13 @@ export default function InputCurrency({ name, disabled, setChange }) {
   }, [ref.current, fieldName]); // eslint-disable-line
 
   function handleChange(e) {
-    setSelected(e);
-    setChange(e);
+    console.tron.log(e);
+    // setSelected(e);
   }
 
   return (
     <>
-      <CurrencyInput
-        disabled={disabled}
-        name={fieldName}
-        value={selected}
-        onChange={handleChange}
-        ref={ref}
-        decimalSeparator=","
-        thousandSeparator="."
-      />
+      <InputMask value={selected} {...rest} />
       {error && <span>{error}</span>}
     </>
   );

@@ -50,12 +50,13 @@ export default createGlobalStyle`
       color: ${colors.input};
       margin: 0 0 10px;
 
+      
       &::placeholder {
         color: ${colors.placeholder};
       }
 
       &:focus {
-        background:  ${lighten(0.45, colors.focus)}
+        background:  ${lighten(0.45, colors.focus)};
         border: 1px solid ${colors.focus};
       }
 
@@ -64,7 +65,7 @@ export default createGlobalStyle`
       }
   }
 
-  textarea {
+  /* textarea {
       background: rgba(255, 255, 255, 1);
       border: 1px solid ${colors.border};
       border-radius: 4px;
@@ -85,7 +86,9 @@ export default createGlobalStyle`
       &:disabled{
         background: ${colors.disabled}
       }
-  }
+  } */
+
+  
 
   form {
     display: flex;

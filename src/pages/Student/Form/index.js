@@ -40,7 +40,6 @@ const schema = Yup.object().shape({
 export default function StudentForm() {
   const { id } = useParams();
   const [student, setStudent] = useState({});
-
   // const student = useSelector(state => state.student.student);
   const dispath = useDispatch();
 

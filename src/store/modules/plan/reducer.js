@@ -32,6 +32,7 @@ export default function plan(state = INITIAL_STATE, action) {
       }
 
       case '@plan/PLAN_SAVE_SUCCESS': {
+        console.tron.log('Chegou...', action);
         draft.plan = action.payload.data;
         draft.loading = false;
         break;
@@ -43,8 +44,9 @@ export default function plan(state = INITIAL_STATE, action) {
       }
 
       case '@plan/PLAN_DELETE_SUCCESS': {
+        // console.log('plans -->', state.plans.data);
         draft.loading = false;
-        draft.plans = state.plans.filter(el => el.id !== action.id);
+        draft.plans.data = state.plans.data.filter(el => el.id !== action.id);
         break;
       }
 

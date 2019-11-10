@@ -44,7 +44,9 @@ export default function student(state = INITIAL_STATE, action) {
 
       case '@student/STUDENT_DELETE_SUCCESS': {
         draft.loading = false;
-        draft.students = state.students.filter(el => el.id !== action.id);
+        draft.students.data = state.students.data.filter(
+          el => el.id !== action.id
+        );
         break;
       }
 
