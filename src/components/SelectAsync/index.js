@@ -20,7 +20,6 @@ export default function ReactSelectAsync({
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
   function parseSelectValue(selectRef) {
-    // console.log(selectRef);
     const selectValue = selectRef.state.value;
     if (!multiple) {
       return selectValue ? selectValue.id : '';
@@ -45,15 +44,18 @@ export default function ReactSelectAsync({
   const debouncedLoadOptions = debounce(loadOptions, 500, {
     leading: true,
   });
-  // const debouncedLoadOptions = debounce(
-  //   value => {
-  //     console.log(value);
-  //   },
-  //   500,
-  //   {
-  //     leading: true,
-  //   }
-  // );
+
+  function getDefaultValue() {
+    console.tron.log('default sync: ', defaultValue);
+
+    if (!defaultValue) return null;
+
+    // if (!multiple) {
+    //   return options.find(option => option.id === defaultValue);
+    // }
+
+    // return options.filter(option => defaultValue.includes(option.id));
+  }
 
   return (
     <Container>
@@ -65,6 +67,7 @@ export default function ReactSelectAsync({
         ref={ref}
         loadOptions={inputValue => debouncedLoadOptions(inputValue)}
         isMulti={multiple}
+        defaultValue={getDefaultValue()}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.title}
         placeholder=""
@@ -78,7 +81,6 @@ export default function ReactSelectAsync({
 
 ReactSelectAsync.propTypes = {
   name: PropTypes.string.isRequired,
-  // label: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   multiple: PropTypes.bool,
   asyncFunc: PropTypes.func.isRequired,

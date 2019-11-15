@@ -24,6 +24,7 @@ import { plansSaveRequest } from '~/store/modules/plan/actions';
 import api from '~/services/api';
 import InputCurrency from '~/components/InputCurrency';
 import { formatCurrency, formatCurrencyBR } from '~/util';
+import Info from '~/components/Info';
 
 // import { Container } from './styles';
 
@@ -98,7 +99,6 @@ export default function PlanForm() {
           <Input name="id" type="hidden" />
           <Label>TÍTULO DO PLANO</Label>
           <Input name="title" placeholder="Plano Ouro" />
-
           <Row>
             <Column mobile="12" desktop="4">
               <FormGroup>
@@ -125,23 +125,10 @@ export default function PlanForm() {
             <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PREÇO TOTAL</Label>
-                <Input disabled name="totalPrice" value={totalPrice} />
+                <Info>{totalPrice}</Info>
               </FormGroup>
             </Column>
           </Row>
-
-          {/* <MaskInput name="date" mask="99/99/9999" /> */}
-
-          {/* <DatePicker name="date" options={{ format: 'yyyy-mm-dd' }} /> */}
-          {/* 
-          <ReactSelect
-            name="tech"
-            options={[
-              { id: 'react', title: 'ReactJS' },
-              { id: 'node', title: 'NodeJS' },
-              { id: 'rn', title: 'React Native' },
-            ]}
-          /> */}
         </Form>
       </Panel>
     </Container>

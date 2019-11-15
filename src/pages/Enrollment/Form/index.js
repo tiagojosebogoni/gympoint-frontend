@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { format, addMonths, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
-import { addMonths, format, parseISO } from 'date-fns';
 import { Form, Input } from '@rocketseat/unform';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
@@ -20,44 +21,48 @@ import colors from '~/styles/colors';
 import { Panel } from '~/components/Panel/styles';
 import Label from '~/components/Label';
 import { FormGroup } from '~/components/FormGroup/styles';
-
-import { enrollmentsSaveRequest } from '~/store/modules/enrollment/actions';
-import api from '~/services/api';
-import { formatCurrencyBR } from '~/util';
 import ReactSelect from '~/components/ReactSelect';
 import ReactSelectAsync from '~/components/SelectAsync';
+import DatePicker from '~/components/DatePicker';
+import Info from '~/components/Info';
+import api from '~/services/api';
 
-// import { Container } from './styles';
+import { formatCurrencyBR, formatCurrency } from '~/util';
 
 const schema = Yup.object().shape({
-  student_id: Yup.string(),
-  plan_id: Yup.string().required('O plano é obrigatório'),
-  start_date: Yup.string().required('A data de início é obrigatória'),
+  student_id: Yup.number().required('O Aluno é obrigatório'),
+  plan_id: Yup.number().required('O plano é obrigatório'),
+  start_date: Yup.date().required('A data de início é obrigatória'),
 });
 
 export default function EnrollmentForm() {
-  const dispath = useDispatch();
+  // const dispath = useDispatch();
   const { id } = useParams();
   const [enrollment, setEnrollment] = useState({});
   const [plans, setPlans] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [planSelected, setPlanSelected] = useState();
-  const [startDateSelected, setStartDateSelected] = useState();
-  const [endDate, setEndDate] = useState();
-  const [price, setPrice] = useState();
+  const [students, setStudents] = useState({});
+  const [startDate, setStartDate] = useState(null);
+  const [planSelected, setPlanSelected] = useState(null);
+
+  const [endDateFormatted, setEndDateFormatted] = useState(null);
+  const [priceFormatted, setPriceFormatted] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [price, setPrice] = useState(null);
 
   async function loadEnrollment() {
     const res = await api.get(`enrollments/${id}`);
-    setEnrollment({
-      ...res.data,
-      endDateFormatted: format(parseISO(res.data.end_date), 'dd/MM/yyyy'),
-      priceFormatted: formatCurrencyBR(res.data.price),
-    });
+    setEnrollment(res.data);
   }
 
   async function loadPlans() {
     const res = await api.get('plans');
-    setPlans(res.data.data);
+    const data = res.data.data.map(plan => ({
+      ...plan,
+      title: `${plan.title} - ${formatCurrencyBR(plan.price)} / ${
+        plan.duration
+      } (${plan.duration === 1 ? 'Mês' : 'Meses'})`,
+    }));
+    setPlans(data);
   }
 
   async function loadStudents(value) {
@@ -81,23 +86,9 @@ export default function EnrollmentForm() {
     });
   }
 
-  useMemo(() => {
-    // console.log(startDateSelected, planSelected);
-
-    if (startDateSelected && planSelected) {
-      // console.log('Start Date:', startDateSelected);
-      const end_date = addMonths(startDateSelected, planSelected.duration);
-      const price = planSelected.price * planSelected.duration;
-      setEndDate(end_date);
-      setPrice(price);
-
-      setEnrollment({
-        ...enrollment,
-        endDateFormatted: format(end_date, 'dd/MM/yyyy'),
-        priceFormatted: formatCurrencyBR(price),
-      });
-    }
-  }, [startDateSelected, planSelected]); // eslint-disable-line
+  useEffect(() => {
+    loadPlans();
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -105,28 +96,33 @@ export default function EnrollmentForm() {
     }
   }, [id]);
 
-  useEffect(() => {
-    loadPlans();
-  }, []);
-
   function handleSubmit(data) {
-    console.tron.log('Values:', {
+    const dataSubmit = {
       ...data,
-      start_date: parseISO(data.start_date),
       price,
-      end_date: endDate,
-    });
+      end_data: endDate,
+    };
 
-    dispath(
-      enrollmentsSaveRequest({
-        ...data,
-        start_date: parseISO(data.start_date),
-        price,
-        end_date: endDate,
-      })
-    );
-    // resetForm();
+    console.tron.log('Values:', dataSubmit);
+    // dispath(enrollmentsSaveRequest(dataSubmit));
   }
+
+  useMemo(() => {
+    if (startDate && planSelected) {
+      const end = addMonths(startDate, planSelected.duration);
+      setEndDate(end);
+      setEndDateFormatted(
+        format(end, 'dd/MM/yyyy', {
+          locale: pt,
+        })
+      );
+
+      const price = planSelected.duration * planSelected.price;
+      setPrice(price);
+      setPriceFormatted(formatCurrencyBR(price));
+    }
+  }, [startDate, planSelected]);
+
   return (
     <Container>
       <HeaderPage>
@@ -154,7 +150,7 @@ export default function EnrollmentForm() {
         >
           <Label>ALUNO</Label>
           <ReactSelectAsync
-            // label="Aluno"
+            placeholder="Selecione..."
             name="student_id"
             options={students}
             asyncFunc={loadStudents}
@@ -165,7 +161,6 @@ export default function EnrollmentForm() {
               <FormGroup>
                 <Label>PLANO</Label>
                 <ReactSelect
-                  // label="plano"
                   placeholder="Selecione..."
                   name="plan_id"
                   options={plans}
@@ -176,48 +171,28 @@ export default function EnrollmentForm() {
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE INÍCIO</Label>
-                <Input
+                {/* <Input
                   name="start_date"
                   type="date"
                   onChange={e => setStartDateSelected(parseISO(e.target.value))}
-                />
+                /> */}
+
+                <DatePicker name="start_date" onSelect={e => setStartDate(e)} />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE TÉRMINO</Label>
-                <Input
-                  disabled
-                  name="endDateFormatted"
-                  value={enrollment.endDateFormatted}
-                  placeholder="Témino"
-                />
+                <Info>{endDateFormatted}</Info>
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>VALOR FINAL</Label>
-                <Input
-                  disabled
-                  name="priceFormatted"
-                  value={enrollment.priceFormatted}
-                />
+                <Info>{priceFormatted}</Info>
               </FormGroup>
             </Column>
           </Row>
-
-          {/* <MaskInput name="date" mask="99/99/9999" /> */}
-
-          {/* <DatePicker name="date" options={{ format: 'yyyy-mm-dd' }} /> */}
-          {/* 
-          <ReactSelect
-            name="tech"
-            options={[
-              { id: 'react', title: 'ReactJS' },
-              { id: 'node', title: 'NodeJS' },
-              { id: 'rn', title: 'React Native' },
-            ]}
-          /> */}
         </Form>
       </Panel>
     </Container>
