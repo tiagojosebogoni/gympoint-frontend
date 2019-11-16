@@ -1,3 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Question = styled.span`
+  color: #999;
+  font-size: 18px;
+`;

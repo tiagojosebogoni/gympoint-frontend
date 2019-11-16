@@ -19,11 +19,15 @@ export const CustomButton = styled.button`
     background: ${props => darken(0.05, props.color)};
   }
 
-  span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* span {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+  } */
 `;
 
 // background: ${props => props.color};

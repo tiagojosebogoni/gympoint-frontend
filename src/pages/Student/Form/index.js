@@ -68,10 +68,12 @@ export default function StudentForm() {
             <MdArrowBack size={24} color="#fff" />
             <span>Voltar</span>
           </ButtonLink>
-          <Button type="submit" form="formStudent">
-            <MdDone size={24} color="#fff" />
-            <span>Salvar</span>
-          </Button>
+          <Button
+            type="submit"
+            label="Salvar"
+            icon={<MdDone size={24} color="#fff" />}
+            form="formStudent"
+          ></Button>
         </Controls>
       </HeaderPage>
 

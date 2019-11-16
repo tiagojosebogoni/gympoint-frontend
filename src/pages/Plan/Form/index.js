@@ -82,10 +82,12 @@ export default function PlanForm() {
             <MdArrowBack size={24} color="#fff" />
             <span>Voltar</span>
           </ButtonLink>
-          <Button type="submit" form="formPlan">
-            <MdDone size={24} color="#fff" />
-            <span>Salvar</span>
-          </Button>
+          <Button
+            type="submit"
+            label="Salvar"
+            icon={<MdDone size={24} color="#fff" />}
+            form="formPlan"
+          ></Button>
         </Controls>
       </HeaderPage>
 

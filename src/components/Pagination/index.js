@@ -49,7 +49,7 @@ export default function Pagination({ align, onLoadPage, page, totalPage }) {
           {index + 1}
         </PageItem>
       ))}
-      {pageSelected !== totalPage && (
+      {pageSelected < totalPage && (
         <PageNext onClick={handleNextPage}>Próximo</PageNext>
       )}
     </Paginator>

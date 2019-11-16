@@ -65,7 +65,7 @@ export default createGlobalStyle`
       }
   }
 
-  /* textarea {
+  textarea {
       background: rgba(255, 255, 255, 1);
       border: 1px solid ${colors.border};
       border-radius: 4px;
@@ -86,7 +86,7 @@ export default createGlobalStyle`
       &:disabled{
         background: ${colors.disabled}
       }
-  } */
+  }
 
   
 
