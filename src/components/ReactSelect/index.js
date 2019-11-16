@@ -35,7 +35,7 @@ export default function ReactSelect({
   }, [ref.current, fieldName]); // eslint-disable-line
 
   function getDefaultValue() {
-    console.tron.log('default: ', defaultValue);
+    // console.tron.log('default: ', defaultValue);
     if (!defaultValue) return null;
 
     if (!multiple) {

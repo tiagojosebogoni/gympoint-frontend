@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async';
 
 import { debounce } from 'lodash';
@@ -14,6 +13,8 @@ export default function ReactSelectAsync({
   options,
   multiple,
   asyncFunc,
+  defaultOptions,
+  setDefaultValue,
   ...rest
 }) {
   const ref = useRef(null);
@@ -24,6 +25,7 @@ export default function ReactSelectAsync({
     if (!multiple) {
       return selectValue ? selectValue.id : '';
     }
+    console.log('SelectValue', selectValue);
     return selectValue ? selectValue.map(option => option.id) : [];
   }
 
@@ -46,7 +48,7 @@ export default function ReactSelectAsync({
   });
 
   function getDefaultValue() {
-    console.tron.log('default sync: ', defaultValue);
+    // console.tron.log('default sync: ', defaultValue);
 
     if (!defaultValue) return null;
 
@@ -59,18 +61,17 @@ export default function ReactSelectAsync({
 
   return (
     <Container>
-      {label && <label htmlFor={fieldName}>{label}</label>}
-
       <AsyncSelect
         name={fieldName}
         aria-label={fieldName}
         ref={ref}
         loadOptions={inputValue => debouncedLoadOptions(inputValue)}
         isMulti={multiple}
-        defaultValue={getDefaultValue()}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.title}
         placeholder=""
+        cacheOptions
+        defaultOptions={defaultOptions}
         {...rest}
       />
 
@@ -78,14 +79,3 @@ export default function ReactSelectAsync({
     </Container>
   );
 }
-
-ReactSelectAsync.propTypes = {
-  name: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-  multiple: PropTypes.bool,
-  asyncFunc: PropTypes.func.isRequired,
-};
-
-ReactSelectAsync.defaultProps = {
-  multiple: false,
-};

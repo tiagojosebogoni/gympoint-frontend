@@ -1,57 +1,95 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { format, addMonths, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-
-import { Form, Input } from '@rocketseat/unform';
-// import { useDispatch } from 'react-redux';
+import AsyncSelect from 'react-select/async';
+import Select from 'react-select';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
-import * as Yup from 'yup';
 
+import colors from '~/styles/colors';
 import { Container, Row, Column } from '~/components/Grid';
 import Title from '~/components/Title';
 import { HeaderPage } from '~/components/HeaderPage/styles';
 import { Controls } from '~/components/Controls/styles';
-
 import ButtonLink from '~/components/ButtonLink';
 import Button from '~/components/Button';
-
-import colors from '~/styles/colors';
 import { Panel } from '~/components/Panel/styles';
 import Label from '~/components/Label';
 import { FormGroup } from '~/components/FormGroup/styles';
-import ReactSelect from '~/components/ReactSelect';
-import ReactSelectAsync from '~/components/SelectAsync';
-import DatePicker from '~/components/DatePicker';
+
 import Info from '~/components/Info';
 import api from '~/services/api';
 
-import { formatCurrencyBR, formatCurrency } from '~/util';
-
-const schema = Yup.object().shape({
-  student_id: Yup.number().required('O Aluno é obrigatório'),
-  plan_id: Yup.number().required('O plano é obrigatório'),
-  start_date: Yup.date().required('A data de início é obrigatória'),
-});
+import { formatCurrencyBR } from '~/util';
+import { enrollmentsSaveRequest } from '~/store/modules/enrollment/actions';
 
 export default function EnrollmentForm() {
-  // const dispath = useDispatch();
+  const dispath = useDispatch();
   const { id } = useParams();
+
+  // const [enrollment, setEnrollment] = useState({
+  //   status: true,
+  //   id: 1,
+  //   student_id: 1,
+  //   plan_id: 2,
+  //   start_date: '2019-12-01T12:00:00.000Z',
+  //   end_date: '2020-03-01T13:00:00.000Z',
+  //   price: '180.00',
+  //   createdAt: '2019-11-15T14:00:09.254Z',
+  //   updatedAt: '2019-11-15T14:00:09.254Z',
+  //   student: { id: 1, name: 'David Faria' },
+  //   plan: {
+  //     total: 180,
+  //     id: 2,
+  //     title: 'Silver',
+  //     duration: 3,
+  //     price: '60.00',
+  //   },
+  // });
+
   const [enrollment, setEnrollment] = useState({});
   const [plans, setPlans] = useState([]);
-  const [students, setStudents] = useState({});
-  const [startDate, setStartDate] = useState(null);
-  const [planSelected, setPlanSelected] = useState(null);
+  const [students, setStudents] = useState([]);
 
+  const [studentSelected, setStudentSelected] = useState({});
+  const [startDate, setStartDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const [planSelected, setPlanSelected] = useState(null);
   const [endDateFormatted, setEndDateFormatted] = useState(null);
   const [priceFormatted, setPriceFormatted] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [price, setPrice] = useState(null);
 
-  async function loadEnrollment() {
+  async function loadEnrollment(id) {
     const res = await api.get(`enrollments/${id}`);
-    setEnrollment(res.data);
+
+    const data = res.data;
+
+    // const data = {
+    //   status: true,
+    //   id: 1,
+    //   student_id: 1,
+    //   plan_id: 2,
+    //   start_date: '2019-12-01T12:00:00.000Z',
+    //   end_date: '2020-03-01T13:00:00.000Z',
+    //   price: '180.00',
+    //   createdAt: '2019-11-15T14:00:09.254Z',
+    //   updatedAt: '2019-11-15T14:00:09.254Z',
+    //   student: { id: 1, name: 'David Faria' },
+    //   plan: {
+    //     total: 180,
+    //     id: 2,
+    //     title: 'Silver',
+    //     duration: 3,
+    //     price: '60.00',
+    //   },
+    // };
+
+    setEnrollment(data);
+    setStartDate(format(parseISO(data.start_date), 'yyyy-MM-dd'));
+    setStudentSelected(data.student);
+    setPlanSelected(data.plan);
   }
 
   async function loadPlans() {
@@ -74,11 +112,7 @@ export default function EnrollmentForm() {
       },
     });
 
-    const data = res.data.data.map(student => ({
-      id: student.id,
-      title: student.name,
-    }));
-
+    const data = res.data.data;
     setStudents(data);
 
     return new Promise(resolve => {
@@ -87,29 +121,30 @@ export default function EnrollmentForm() {
   }
 
   useEffect(() => {
-    loadPlans();
-  }, []);
-
-  useEffect(() => {
     if (id) {
-      loadEnrollment();
+      loadEnrollment(id);
     }
   }, [id]);
 
-  function handleSubmit(data) {
-    const dataSubmit = {
-      ...data,
-      price,
-      end_data: endDate,
-    };
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (studentSelected && planSelected) {
+      const dataSubmit = {
+        student_id: studentSelected.id,
+        plan_id: planSelected.id,
+        start_date: parseISO(startDate),
+        // price, // será calculado pela api
+        // end_data: endDate, // será calculado pela api
+      };
 
-    console.tron.log('Values:', dataSubmit);
-    // dispath(enrollmentsSaveRequest(dataSubmit));
+      console.log('Values:', dataSubmit);
+      dispath(enrollmentsSaveRequest(dataSubmit));
+    }
   }
 
   useMemo(() => {
     if (startDate && planSelected) {
-      const end = addMonths(startDate, planSelected.duration);
+      const end = addMonths(parseISO(startDate), planSelected.duration);
       setEndDate(end);
       setEndDateFormatted(
         format(end, 'dd/MM/yyyy', {
@@ -122,6 +157,11 @@ export default function EnrollmentForm() {
       setPriceFormatted(formatCurrencyBR(price));
     }
   }, [startDate, planSelected]);
+
+  useEffect(() => {
+    loadPlans();
+    loadStudents();
+  }, []);
 
   return (
     <Container>
@@ -142,28 +182,41 @@ export default function EnrollmentForm() {
       </HeaderPage>
 
       <Panel>
-        <Form
-          id="formEnrollment"
-          initialData={enrollment}
-          schema={schema}
-          onSubmit={handleSubmit}
-        >
+        <form id="formEnrollment" onSubmit={handleSubmit}>
           <Label>ALUNO</Label>
-          <ReactSelectAsync
-            placeholder="Selecione..."
+          <AsyncSelect
+            cacheOptions
             name="student_id"
-            options={students}
-            asyncFunc={loadStudents}
+            loadOptions={loadStudents}
+            getOptionValue={option => option.id}
+            getOptionLabel={option => option.name}
+            // defaultValue={enrollment.student}
+            value={enrollment.student}
+            onChange={e => setStudentSelected(e)}
           />
-
+          {/* <input value={JSON.stringify(enrollment.student)} /> */}
           <Row>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>PLANO</Label>
-                <ReactSelect
-                  placeholder="Selecione..."
+                {/* <AsyncSelect
+                  cacheOptions
                   name="plan_id"
+                  defaultOptions={plans}
+                  options={loadPlans}
+                  getOptionValue={option => option.id}
+                  getOptionLabel={option => option.title}
+                  // defaultValue={enrollment.plan}
+                  onChange={e => setPlanSelected(e)}
+                /> */}
+                <Select
+                  cacheOptions
                   options={plans}
+                  getOptionValue={option => option.id}
+                  getOptionLabel={option => option.title}
+                  // defaultOptions={planSelected}
+                  // defaultValue={enrollment.plan}
+                  value={enrollment.plan}
                   onChange={e => setPlanSelected(e)}
                 />
               </FormGroup>
@@ -171,13 +224,16 @@ export default function EnrollmentForm() {
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE INÍCIO</Label>
-                {/* <Input
+                {/* <DatePicker
                   name="start_date"
-                  type="date"
-                  onChange={e => setStartDateSelected(parseISO(e.target.value))}
+                  selected={new Date()}
+                  onSelect={e => setStartDate(e)}
                 /> */}
-
-                <DatePicker name="start_date" onSelect={e => setStartDate(e)} />
+                <input
+                  type="date"
+                  onChange={e => setStartDate(e.target.value)}
+                  value={startDate}
+                />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
@@ -193,7 +249,7 @@ export default function EnrollmentForm() {
               </FormGroup>
             </Column>
           </Row>
-        </Form>
+        </form>
       </Panel>
     </Container>
   );

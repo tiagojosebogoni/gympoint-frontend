@@ -7,5 +7,5 @@ export default function Info({ children }) {
 }
 
 Info.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.string,
 };

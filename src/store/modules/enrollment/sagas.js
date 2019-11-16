@@ -43,7 +43,7 @@ function* searchEnrollments({ payload }) {
     }));
     yield put(enrollmentsSearchSuccess({ ...res.data, data }));
   } catch (error) {
-    toast.error('Erro pesquisar enrollmentos!');
+    toast.error('Erro pesquisar matrículas!');
     yield put(enrollmentsFailure());
   }
 }
@@ -63,12 +63,12 @@ function* addEnrollment(data) {
 
     const res = yield call(api.post, 'enrollments', dataFormatted);
 
-    toast.success('Enrollmento cadastrado com sucesso');
+    toast.success('Matrícula cadastrada com sucesso');
     yield put(enrollmentsSaveSuccess(res.data));
 
-    history.push('/enrollmentos');
+    history.push('/matriculas');
   } catch (error) {
-    toast.error('Erro cadastrar aluno!');
+    toast.error('Erro cadastrar matrícula!');
     yield put(enrollmentsFailure());
   }
 }
@@ -82,10 +82,10 @@ function* updateEnrollment(data) {
       dataFormatted
     );
 
-    toast.success('Enrollmento Atualizado com sucesso');
+    toast.success('Matrícula Atualizada com sucesso');
     yield put(enrollmentsSaveSuccess(res.data));
   } catch (error) {
-    toast.error('Erro atualizar aluno!');
+    toast.error('Erro atualizar matrícula!');
     yield put(enrollmentsFailure());
   }
 }
@@ -96,10 +96,10 @@ function* deleteEnrollment({ payload }) {
 
     yield call(api.delete, `enrollments/${id}`);
 
-    toast.success('Enrollmento removido com sucesso');
+    toast.success('Matrícula removida com sucesso');
     yield put(enrollmentsDeleteSuccess(id));
   } catch (error) {
-    toast.error('Erro remover enrollmentos!');
+    toast.error('Erro remover matrículas!');
     // console.log(error);
     yield put(enrollmentsFailure());
   }
