@@ -50,7 +50,6 @@ export default function StudentList() {
   }
 
   function handleLoadPage(page) {
-    // console.tron.log('load: ', page);
     handleSearchMain(termSearch, page);
   }
 
@@ -63,8 +62,6 @@ export default function StudentList() {
             <MdAdd size={24} color="#fff" title="Adicionar Novo Aluno" />
             <span>Cadastrar</span>
           </ButtonLink>
-
-          {/* <Link to="/alunos/new">Novo</Link> */}
 
           <InputSearch
             handleSearch={handleSearchMain}
@@ -123,12 +120,14 @@ export default function StudentList() {
                 totalPage={students.totalPage}
                 total={students.total}
               />
-              <Pagination
-                page={students.page}
-                totalPage={students.totalPage}
-                align="center"
-                onLoadPage={handleLoadPage}
-              />
+              {students.totalPage > 1 && (
+                <Pagination
+                  page={students.page}
+                  totalPage={students.totalPage}
+                  align="center"
+                  onLoadPage={handleLoadPage}
+                />
+              )}
             </>
           )}
         </Panel>

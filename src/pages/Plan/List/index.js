@@ -121,12 +121,14 @@ export default function PlanList() {
                 totalPage={plans.totalPage}
                 total={plans.total}
               />
-              <Pagination
-                page={plans.page}
-                totalPage={plans.totalPage}
-                align="center"
-                onLoadPage={handleLoadPage}
-              />
+              {plans.totalPage > 1 && (
+                <Pagination
+                  page={plans.page}
+                  totalPage={plans.totalPage}
+                  align="center"
+                  onLoadPage={handleLoadPage}
+                />
+              )}
             </>
           )}
         </Panel>

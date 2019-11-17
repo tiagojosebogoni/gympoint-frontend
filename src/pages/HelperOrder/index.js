@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Textarea } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { Container } from '~/components/Grid';
@@ -113,22 +113,19 @@ export default function HelperOrderList() {
                 </Tbody>
               </Table>
               <br />
-
-              {orders.length > 0 && (
-                <>
-                  <PaginationInfo
-                    page={pagination.page}
-                    perPage={pagination.perPage}
-                    totalPage={pagination.totalPage}
-                    total={pagination.total}
-                  />
-                  <Pagination
-                    page={pagination.page}
-                    totalPage={pagination.totalPage}
-                    align="center"
-                    onLoadPage={handleLoadPage}
-                  />
-                </>
+              <PaginationInfo
+                page={pagination.page}
+                perPage={pagination.perPage}
+                totalPage={pagination.totalPage}
+                total={pagination.total}
+              />
+              {orders.totalPage > 1 && (
+                <Pagination
+                  page={pagination.page}
+                  totalPage={pagination.totalPage}
+                  align="center"
+                  onLoadPage={handleLoadPage}
+                />
               )}
             </>
           )}
@@ -144,7 +141,7 @@ export default function HelperOrderList() {
 
         <Form schema={schema} onSubmit={handleSubmitAwswer}>
           <Label>SUA RESPOSTA</Label>
-          <Textarea name="answer" rows={10} />
+          <Input multiline name="answer" rows={10} />
           <Button type="submit" label="Responder Aluno"></Button>
         </Form>
       </Modal>

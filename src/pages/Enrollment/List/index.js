@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import { MdAdd, MdCheckCircle } from 'react-icons/md';
 
+import colors from '~/styles/colors';
 import { Container } from '~/components/Grid';
+import { HeaderPage } from '~/components/HeaderPage/styles';
+import { Controls } from '~/components/Controls/styles';
 import Title from '~/components/Title';
 import { Table, Thead, Th, Tbody, Tr, Td } from '~/components/Table';
 import Loading from '~/components/Loading';
-import { HeaderPage } from '~/components/HeaderPage/styles';
-import { Controls } from '~/components/Controls/styles';
-import colors from '~/styles/colors';
 
 import {
   enrollmentsSearchRequest,
   enrollmentsDeleteRequest,
 } from '~/store/modules/enrollment/actions';
+
 import ButtonLink from '~/components/ButtonLink';
 import Alert from '~/util/alert';
 import { Panel } from '~/components/Panel/styles';
@@ -25,19 +26,17 @@ import PaginationInfo from '~/components/Pagination/PaginationInfo';
 import ButtonLikeLink from '~/components/ButtonLikeLink';
 
 export default function EnrollmentList() {
-  const [termSearch, setTermSearch] = useState('');
   const enrollments = useSelector(state => state.enrollment.enrollments);
   const loading = useSelector(state => state.enrollment.loading);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(enrollmentsSearchRequest({ term: termSearch, page: 1 }));
-  }, []); // eslint-disable-line
-
-  function handleSearchMain(value, page = 1) {
-    setTermSearch(value);
-    dispatch(enrollmentsSearchRequest({ term: value, page }));
+  function loadEnrollments(page = 1) {
+    dispatch(enrollmentsSearchRequest({ page }));
   }
+
+  useEffect(() => {
+    loadEnrollments(1);
+  }, []); // eslint-disable-line
 
   function handleDelete(id) {
     Alert.delete().then(result => {
@@ -48,8 +47,7 @@ export default function EnrollmentList() {
   }
 
   function handleLoadPage(page) {
-    // console.tron.log('load: ', page);
-    handleSearchMain(termSearch, page);
+    loadEnrollments(page);
   }
 
   return (
@@ -123,12 +121,14 @@ export default function EnrollmentList() {
                 totalPage={enrollments.totalPage}
                 total={enrollments.total}
               />
-              <Pagination
-                page={enrollments.page}
-                totalPage={enrollments.totalPage}
-                align="center"
-                onLoadPage={handleLoadPage}
-              />
+              {enrollments.totalPage > 1 && (
+                <Pagination
+                  page={enrollments.page}
+                  totalPage={enrollments.totalPage}
+                  align="center"
+                  onLoadPage={handleLoadPage}
+                />
+              )}
             </>
           )}
         </Panel>

@@ -44,7 +44,6 @@ export default function enrollment(state = INITIAL_STATE, action) {
       }
 
       case '@enrollment/ENROLLMENT_DELETE_SUCCESS': {
-        // console.log('enrollments -->', state.enrollments.data);
         draft.loading = false;
         draft.enrollments.data = state.enrollments.data.filter(
           el => el.id !== action.id
