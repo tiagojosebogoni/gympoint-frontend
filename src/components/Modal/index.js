@@ -19,7 +19,7 @@ export default function Modal({ children, title, isShow, onClose, width }) {
 
 Modal.defaultProps = {
   title: '',
-  width: '600px',
+  width: '400px',
   isShow: false,
 };
 

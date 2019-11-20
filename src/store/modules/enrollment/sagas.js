@@ -15,10 +15,11 @@ import {
 
 function* searchEnrollments({ payload }) {
   try {
-    const { page } = payload.data;
+    const { term, page } = payload.data;
 
     const res = yield call(api.get, 'enrollments', {
       params: {
+        term,
         page,
       },
     });

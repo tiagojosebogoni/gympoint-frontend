@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
@@ -24,19 +24,26 @@ import NoResultFound from '~/components/NoResultFound';
 import Pagination from '~/components/Pagination';
 import PaginationInfo from '~/components/Pagination/PaginationInfo';
 import ButtonLikeLink from '~/components/ButtonLikeLink';
+import InputSearch from '~/components/InputSearch';
 
 export default function EnrollmentList() {
+  const [termSearch, setTermSearch] = useState('');
   const enrollments = useSelector(state => state.enrollment.enrollments);
   const loading = useSelector(state => state.enrollment.loading);
   const dispatch = useDispatch();
 
-  function loadEnrollments(page = 1) {
-    dispatch(enrollmentsSearchRequest({ page }));
+  function loadEnrollments(term = termSearch, page = 1) {
+    dispatch(enrollmentsSearchRequest({ term, page }));
   }
 
   useEffect(() => {
-    loadEnrollments(1);
+    loadEnrollments(termSearch, 1);
   }, []); // eslint-disable-line
+
+  function handleSearchMain(value, page = 1) {
+    setTermSearch(value);
+    dispatch(enrollmentsSearchRequest({ term: value, page }));
+  }
 
   function handleDelete(id) {
     Alert.delete().then(result => {
@@ -47,7 +54,7 @@ export default function EnrollmentList() {
   }
 
   function handleLoadPage(page) {
-    loadEnrollments(page);
+    loadEnrollments(termSearch, page);
   }
 
   return (
@@ -59,6 +66,11 @@ export default function EnrollmentList() {
             <MdAdd size={24} color="#fff" title="Adicionar Novo Enrollmento" />
             <span>Cadastrar</span>
           </ButtonLink>
+
+          <InputSearch
+            handleSearch={handleSearchMain}
+            placeholder="Buscar aluno, plano"
+          />
         </Controls>
       </HeaderPage>
 

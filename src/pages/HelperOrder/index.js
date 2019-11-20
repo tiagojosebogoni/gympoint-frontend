@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from '@rocketseat/unform';
+import { Form } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { Container } from '~/components/Grid';
@@ -15,7 +15,7 @@ import Label from '~/components/Label';
 import Button from '~/components/Button';
 import Modal from '~/components/Modal';
 import { HeaderPage } from '~/components/HeaderPage/styles';
-import { Question } from './styles';
+import { Question, InputTextArea } from './styles';
 
 import api from '~/services/api';
 import { toast } from 'react-toastify';
@@ -141,7 +141,7 @@ export default function HelperOrderList() {
 
         <Form schema={schema} onSubmit={handleSubmitAwswer}>
           <Label>SUA RESPOSTA</Label>
-          <Input multiline name="answer" rows={10} />
+          <InputTextArea multiline name="answer" />
           <Button type="submit" label="Responder Aluno"></Button>
         </Form>
       </Modal>
