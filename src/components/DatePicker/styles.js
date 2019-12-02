@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Input } from '@rocketseat/unform';
+import ReactDatePicker from 'react-datepicker';
 import colors from '~/styles/colors';
 
-export const CustomInput = styled(Input)`
+export const CustomDatePicker = styled(ReactDatePicker)`
   background: rgba(255, 255, 255, 1);
   border: 1px solid ${colors.border};
   border-radius: 4px;

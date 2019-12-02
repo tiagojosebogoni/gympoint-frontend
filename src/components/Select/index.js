@@ -3,6 +3,8 @@ import Select from 'react-select';
 
 import { useField } from '@rocketseat/unform';
 
+// import { Container } from './styles';
+
 export default function ReactSelect({
   name,
   label,
@@ -35,9 +37,7 @@ export default function ReactSelect({
   }, [ref.current, fieldName]); // eslint-disable-line
 
   function getDefaultValue() {
-    // console.tron.log('default: ', defaultValue);
     if (!defaultValue) return null;
-
     if (!multiple) {
       return options.find(option => option.id === defaultValue);
     }
@@ -49,7 +49,7 @@ export default function ReactSelect({
     <>
       {label && <label htmlFor={fieldName}>{label}</label>}
 
-      <Select
+      {/* <Select
         name={fieldName}
         aria-label={fieldName}
         options={options}
@@ -58,6 +58,22 @@ export default function ReactSelect({
         ref={ref}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.title}
+        {...rest}
+      /> */}
+
+      <Select
+        name={fieldName}
+        aria-label={fieldName}
+        options={options}
+        isMulti={multiple}
+        defaultValue={getDefaultValue()}
+        ref={ref}
+        getOptionValue={option => option.id}
+        getOptionLabel={option => option.name}
+        placeholder="Selecione..."
+        noOptionsMessage={() => 'Nenhum registro localizado'}
+        cacheOptions
+        // onChange={e => setPlanSelected(e)}
         {...rest}
       />
 

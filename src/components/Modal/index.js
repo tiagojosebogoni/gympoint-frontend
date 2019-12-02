@@ -24,7 +24,10 @@ Modal.defaultProps = {
 };
 
 Modal.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.element]),
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]),
   title: PropTypes.string,
   isShow: PropTypes.bool,
   onClose: PropTypes.func.isRequired,

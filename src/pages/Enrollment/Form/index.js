@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import { Form } from '@rocketseat/unform';
 import { format, addMonths, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import AsyncSelect from 'react-select/async';
-import Select from 'react-select';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
@@ -18,13 +18,21 @@ import Button from '~/components/Button';
 import { Panel } from '~/components/Panel/styles';
 import Label from '~/components/Label';
 import { FormGroup } from '~/components/FormGroup/styles';
+import Select from '~/components/Select';
+import SelectAsync from '~/components/SelectAsync';
 
-import Info from '~/components/Info';
 import api from '~/services/api';
 
 import { formatCurrencyBR } from '~/util';
 import { enrollmentsSaveRequest } from '~/store/modules/enrollment/actions';
 import Input from '~/components/Input';
+import DatePicker from '~/components/DatePicker';
+
+const schema = Yup.object().shape({
+  student_id: Yup.number().required('O Aluno é obrigatório'),
+  plan_id: Yup.number().required('O Plano é obrigatório'),
+  start_date: Yup.date().required('A data de início é obrigatória'),
+});
 
 export default function EnrollmentForm() {
   const dispath = useDispatch();
@@ -87,25 +95,38 @@ export default function EnrollmentForm() {
     }
   }, [id]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (studentSelected && planSelected) {
-      const dataSubmit = {
-        student_id: studentSelected.id,
-        plan_id: planSelected.id,
-        start_date: parseISO(startDate),
-        // price, // será calculado pela api
-        // end_data: endDate, // será calculado pela api
-      };
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   if (studentSelected && planSelected) {
+  //     const dataSubmit = {
+  //       student_id: studentSelected.id,
+  //       plan_id: planSelected.id,
+  //       start_date: parseISO(startDate),
+  //       price, // será calculado pela api
+  //       end_data: endDate, // será calculado pela api
+  //     };
 
-      console.log('Values:', dataSubmit);
-      dispath(enrollmentsSaveRequest(dataSubmit));
-    }
+  //     console.log('Values:', dataSubmit);
+  //     dispath(enrollmentsSaveRequest(dataSubmit));
+  //   }
+  // }
+  function handleSubmit(data) {
+    console.log('DATA', data);
   }
 
   useMemo(() => {
     if (startDate && planSelected) {
-      const end = addMonths(parseISO(startDate), planSelected.duration);
+      let end;
+
+      if (startDate.length === 10) {
+        const startDateParser = parseISO(startDate);
+        end = addMonths(startDateParser, planSelected.duration);
+
+        setStartDate(startDateParser);
+      } else {
+        end = addMonths(startDate, planSelected.duration);
+      }
+
       setEndDate(end);
       setEndDateFormatted(
         format(end, 'dd/MM/yyyy', {
@@ -145,17 +166,14 @@ export default function EnrollmentForm() {
       </HeaderPage>
 
       <Panel>
-        <form id="formEnrollment" onSubmit={handleSubmit}>
+        <Form schema={schema} id="formEnrollment" onSubmit={handleSubmit}>
           <Label>ALUNO</Label>
-          <AsyncSelect
+          <SelectAsync
             placeholder="Digite o nome do aluno..."
             noOptionsMessage={() => 'Nenhum registro localizado'}
             cacheOptions
             name="student_id"
             loadOptions={loadStudents}
-            getOptionValue={option => option.id}
-            getOptionLabel={option => option.name}
-            // defaultValue={enrollment.student}
             value={enrollment.student}
             onChange={e => setStudentSelected(e)}
           />
@@ -164,13 +182,13 @@ export default function EnrollmentForm() {
               <FormGroup>
                 <Label>PLANO</Label>
                 <Select
+                  name="plan_id"
                   placeholder="Selecione..."
                   noOptionsMessage={() => 'Nenhum registro localizado'}
                   cacheOptions
                   options={plans}
-                  getOptionValue={option => option.id}
-                  getOptionLabel={option => option.title}
                   value={enrollment.plan}
+                  getOptionLabel={option => option.title}
                   onChange={e => setPlanSelected(e)}
                 />
               </FormGroup>
@@ -178,34 +196,34 @@ export default function EnrollmentForm() {
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE INÍCIO</Label>
-                <Input
-                  name="date"
+                {/* <Input
+                  name="start_date"
                   type="date"
                   onChange={e => setStartDate(e.target.value)}
+                  value={enrollment.start_date}
+                  // value={startDate}
+                /> */}
+                <DatePicker
+                  name="start_date"
                   value={startDate}
+                  onChange={e => setStartDate(e)}
                 />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE TÉRMINO</Label>
-                <Input
-                  name="endDateFormatted"
-                  disabled
-                  value={endDateFormatted}
-                />
-                {/* <Info>{endDateFormatted}</Info> */}
+                <Input name="end_date" disabled value={endDateFormatted} />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>VALOR FINAL</Label>
-                <Input name="priceFormatted" disabled value={priceFormatted} />
-                {/* <Info>{priceFormatted}</Info> */}
+                <Input name="price" disabled value={priceFormatted} />
               </FormGroup>
             </Column>
           </Row>
-        </form>
+        </Form>
       </Panel>
     </Container>
   );

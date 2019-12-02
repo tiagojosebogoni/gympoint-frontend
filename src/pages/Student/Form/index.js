@@ -23,8 +23,6 @@ import { FormGroup } from '~/components/FormGroup/styles';
 import { studentsSaveRequest } from '~/store/modules/student/actions';
 import api from '~/services/api';
 
-// import { Container } from './styles';
-
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   email: Yup.string()

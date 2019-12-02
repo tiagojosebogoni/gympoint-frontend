@@ -25,9 +25,6 @@ import { plansSaveRequest } from '~/store/modules/plan/actions';
 import api from '~/services/api';
 import InputCurrency from '~/components/InputCurrency';
 import { formatCurrency, formatCurrencyBR } from '~/util';
-import Info from '~/components/Info';
-
-// import { Container } from './styles';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('O título do plano é obrigatório'),

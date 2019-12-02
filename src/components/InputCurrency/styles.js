@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input';
 import colors from '~/styles/colors';
-import { lighten } from 'polished';
 
 export const CustomInputCurrency = styled(CurrencyInput)`
   background: rgba(255, 255, 255, 1);

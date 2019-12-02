@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 
 import { useField } from '@rocketseat/unform';
 
-import { Container } from './styles';
+// import { Container } from './styles';
 
 export default function ReactSelectAsync({
   name,
@@ -48,20 +48,18 @@ export default function ReactSelectAsync({
   });
 
   function getDefaultValue() {
-    // console.tron.log('default sync: ', defaultValue);
-
     if (!defaultValue) return null;
 
-    // if (!multiple) {
-    //   return options.find(option => option.id === defaultValue);
-    // }
+    if (!multiple) {
+      return options.find(option => option.id === defaultValue);
+    }
 
-    // return options.filter(option => defaultValue.includes(option.id));
+    return options.filter(option => defaultValue.includes(option.id));
   }
 
   return (
-    <Container>
-      <AsyncSelect
+    <>
+      {/* <AsyncSelect
         name={fieldName}
         aria-label={fieldName}
         ref={ref}
@@ -73,9 +71,27 @@ export default function ReactSelectAsync({
         cacheOptions
         defaultOptions={defaultOptions}
         {...rest}
+      /> */}
+      <AsyncSelect
+        name={fieldName}
+        aria-label={fieldName}
+        loadOptions={inputValue => debouncedLoadOptions(inputValue)}
+        isMulti={multiple}
+        defaultValue={getDefaultValue()}
+        // defaultOptions={defaultOptions}
+        placeholder="Selecione..."
+        noOptionsMessage={() => 'Nenhum registro localizado'}
+        cacheOptions
+        name="student_id"
+        loadOptions={options}
+        getOptionValue={option => option.id}
+        getOptionLabel={option => option.name}
+        // onChange={e => setStudentSelected(e)}
+        ref={ref}
+        {...rest}
       />
 
       {error && <span>{error}</span>}
-    </Container>
+    </>
   );
 }

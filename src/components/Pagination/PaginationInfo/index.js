@@ -13,9 +13,16 @@ export default function PaginationInfo({ page, perPage, totalPage, total }) {
   );
 }
 
+PaginationInfo.defaultsProps = {
+  page: 0,
+  perPage: 0,
+  totalPage: 0,
+  total: 0,
+};
+
 PaginationInfo.propTypes = {
-  page: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
-  totalPage: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
+  page: PropTypes.number,
+  perPage: PropTypes.number,
+  totalPage: PropTypes.number,
+  total: PropTypes.number,
 };

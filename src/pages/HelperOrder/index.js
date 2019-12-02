@@ -48,6 +48,8 @@ export default function HelperOrderList() {
     });
     setLoading(false);
 
+    console.log(res);
+
     setOrders(res.data.data);
     delete res.data.data;
     setPagination(res.data);
