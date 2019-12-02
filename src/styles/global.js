@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import { lighten } from 'polished';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
+
 import colors from '~/styles/colors';
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
@@ -65,6 +66,7 @@ export default createGlobalStyle`
       }
   }
 
+  
   textarea {
       background: rgba(255, 255, 255, 1);
       border: 1px solid ${colors.border};
@@ -79,9 +81,10 @@ export default createGlobalStyle`
       }
 
       &:focus {
-        background:  ${lighten(0.45, colors.focus)}
+        background:  ${lighten(0.45, colors.focus)};
         border: 1px solid ${colors.focus};
       }
+          
 
       &:disabled{
         background: ${colors.disabled}
@@ -101,6 +104,8 @@ export default createGlobalStyle`
       margin: 0 0 10px;
       font-weight: bold;
     }
+
   }
+
 
 `;

@@ -29,26 +29,6 @@ export default function EnrollmentForm() {
   const dispath = useDispatch();
   const { id } = useParams();
 
-  // const [enrollment, setEnrollment] = useState({
-  //   status: true,
-  //   id: 1,
-  //   student_id: 1,
-  //   plan_id: 2,
-  //   start_date: '2019-12-01T12:00:00.000Z',
-  //   end_date: '2020-03-01T13:00:00.000Z',
-  //   price: '180.00',
-  //   createdAt: '2019-11-15T14:00:09.254Z',
-  //   updatedAt: '2019-11-15T14:00:09.254Z',
-  //   student: { id: 1, name: 'David Faria' },
-  //   plan: {
-  //     total: 180,
-  //     id: 2,
-  //     title: 'Silver',
-  //     duration: 3,
-  //     price: '60.00',
-  //   },
-  // });
-
   const [enrollment, setEnrollment] = useState({});
   const [plans, setPlans] = useState([]);
   const [students, setStudents] = useState([]);
@@ -65,26 +45,6 @@ export default function EnrollmentForm() {
     const res = await api.get(`enrollments/${id}`);
 
     const data = res.data;
-
-    // const data = {
-    //   status: true,
-    //   id: 1,
-    //   student_id: 1,
-    //   plan_id: 2,
-    //   start_date: '2019-12-01T12:00:00.000Z',
-    //   end_date: '2020-03-01T13:00:00.000Z',
-    //   price: '180.00',
-    //   createdAt: '2019-11-15T14:00:09.254Z',
-    //   updatedAt: '2019-11-15T14:00:09.254Z',
-    //   student: { id: 1, name: 'David Faria' },
-    //   plan: {
-    //     total: 180,
-    //     id: 2,
-    //     title: 'Silver',
-    //     duration: 3,
-    //     price: '60.00',
-    //   },
-    // };
 
     setEnrollment(data);
     setStartDate(format(parseISO(data.start_date), 'yyyy-MM-dd'));
@@ -196,28 +156,15 @@ export default function EnrollmentForm() {
             value={enrollment.student}
             onChange={e => setStudentSelected(e)}
           />
-          {/* <input value={JSON.stringify(enrollment.student)} /> */}
           <Row>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>PLANO</Label>
-                {/* <AsyncSelect
-                  cacheOptions
-                  name="plan_id"
-                  defaultOptions={plans}
-                  options={loadPlans}
-                  getOptionValue={option => option.id}
-                  getOptionLabel={option => option.title}
-                  // defaultValue={enrollment.plan}
-                  onChange={e => setPlanSelected(e)}
-                /> */}
                 <Select
                   cacheOptions
                   options={plans}
                   getOptionValue={option => option.id}
                   getOptionLabel={option => option.title}
-                  // defaultOptions={planSelected}
-                  // defaultValue={enrollment.plan}
                   value={enrollment.plan}
                   onChange={e => setPlanSelected(e)}
                 />
@@ -226,11 +173,6 @@ export default function EnrollmentForm() {
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE INÍCIO</Label>
-                {/* <DatePicker
-                  name="start_date"
-                  selected={new Date()}
-                  onSelect={e => setStartDate(e)}
-                /> */}
                 <input
                   type="date"
                   onChange={e => setStartDate(e.target.value)}
