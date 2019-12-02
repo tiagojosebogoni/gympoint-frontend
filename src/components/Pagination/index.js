@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import PropTypes from 'prop-types';
 import { Paginator, PagePrev, PageItem, PageNext } from './styles';
 
 export default function Pagination({ align, onLoadPage, page, totalPage }) {
@@ -55,3 +55,14 @@ export default function Pagination({ align, onLoadPage, page, totalPage }) {
     </Paginator>
   );
 }
+
+Pagination.defaultProps = {
+  align: 'center',
+};
+
+Pagination.propTypes = {
+  align: PropTypes.string,
+  onLoadPage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  totalPage: PropTypes.number.isRequired,
+};

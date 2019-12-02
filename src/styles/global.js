@@ -43,14 +43,6 @@ export default createGlobalStyle`
   }
 
   input {
-      background: rgba(255, 255, 255, 1);
-      border: 1px solid ${colors.border};
-      border-radius: 4px;
-      height: 44px;
-      padding: 0 15px;
-      color: ${colors.input};
-      margin: 0 0 10px;
-
       
       &::placeholder {
         color: ${colors.placeholder};
@@ -67,15 +59,9 @@ export default createGlobalStyle`
   }
 
   
-  textarea {
-      background: rgba(255, 255, 255, 1);
-      border: 1px solid ${colors.border};
-      border-radius: 4px;
-      height: 44px;
-      padding: 10px;
-      color: ${colors.input};
-      margin: 0 0 10px;
 
+  
+  textarea {
       &::placeholder {
         color: ${colors.placeholder};
       }

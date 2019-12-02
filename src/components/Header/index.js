@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import colors from '~/styles/colors';
-// import Notifications from '~/components/Notifications';
+
 import logo from '~/assets/logo-header.png';
 
 import { Container, Content, Profile, Menu } from './styles';

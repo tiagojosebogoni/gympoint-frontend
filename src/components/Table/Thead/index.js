@@ -2,8 +2,12 @@ import React from 'react';
 import PropsTypes from 'prop-types';
 import { CustomThead } from './styles';
 
-export default function Thead({ children, align }) {
-  return <CustomThead align={align}>{children}</CustomThead>;
+export default function Thead({ children, align, ...rest }) {
+  return (
+    <CustomThead align={align} {...rest}>
+      {children}
+    </CustomThead>
+  );
 }
 
 Thead.defaultProps = {
@@ -15,4 +19,5 @@ Thead.propsTypes = {
     PropsTypes.arrayOf(PropsTypes.node),
     PropsTypes.node,
   ]).isRequired,
+  align: PropsTypes.string,
 };

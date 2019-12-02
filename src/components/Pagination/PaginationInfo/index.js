@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 export default function PaginationInfo({ page, perPage, totalPage, total }) {
@@ -12,3 +12,10 @@ export default function PaginationInfo({ page, perPage, totalPage, total }) {
     </Container>
   );
 }
+
+PaginationInfo.propTypes = {
+  page: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
+  totalPage: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+};

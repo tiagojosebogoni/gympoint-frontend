@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import CurrencyInput from 'react-currency-input';
 
 import { useField } from '@rocketseat/unform';
+
+import { CustomInputCurrency } from './styles';
 
 export default function InputCurrency({ name, disabled, setChange }) {
   const ref = useRef(null);
@@ -27,7 +28,7 @@ export default function InputCurrency({ name, disabled, setChange }) {
 
   return (
     <>
-      <CurrencyInput
+      <CustomInputCurrency
         disabled={disabled}
         name={fieldName}
         value={selected}

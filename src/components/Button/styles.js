@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 // import colors from '~/styles/colors';
 
-export const CustomButton = styled.button`
+export const CustomButton = styled.button.attrs({
+  type: 'button',
+})`
   height: 34px;
   background: ${props => props.color};
   border: 0;
@@ -22,13 +24,4 @@ export const CustomButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
 `;
-
-// background: ${props => props.color};
-/* background: ${darken(0.05, props => props.color)}; */

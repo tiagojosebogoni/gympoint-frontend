@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input } from '@rocketseat/unform';
+import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
@@ -11,6 +11,7 @@ import Title from '~/components/Title';
 import { HeaderPage } from '~/components/HeaderPage/styles';
 import { Controls } from '~/components/Controls/styles';
 
+import Input from '~/components/Input';
 import ButtonLink from '~/components/ButtonLink';
 import Button from '~/components/Button';
 

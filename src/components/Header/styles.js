@@ -44,13 +44,9 @@ export const Content = styled.div`
   }
 `;
 
-export const Menu = styled(NavLink).attrs(props => ({
-  // size: console.tron.log(props.match),
-}))`
-  /* a { */
+export const Menu = styled(NavLink).attrs(props => ({}))`
   font-weight: bold;
   color: ${colors.placeholder};
-  /* } */
 `;
 
 export const Profile = styled.div`

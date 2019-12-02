@@ -8,7 +8,7 @@ export default function Row({ children, ...rest }) {
 
 Row.propTypes = {
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
   ]).isRequired,
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 
-import { Form, Input } from '@rocketseat/unform';
+import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
@@ -13,6 +13,7 @@ import { HeaderPage } from '~/components/HeaderPage/styles';
 import { Controls } from '~/components/Controls/styles';
 
 import ButtonLink from '~/components/ButtonLink';
+import Input from '~/components/Input';
 import Button from '~/components/Button';
 
 import colors from '~/styles/colors';
@@ -45,6 +46,8 @@ export default function PlanForm() {
 
   const totalPrice = useMemo(() => {
     let total = 0.0;
+
+    console.log(plan.price);
     if (plan.duration && plan.price) {
       total = parseInt(plan.duration, 10) * formatCurrency(plan.price);
     }
@@ -122,12 +125,20 @@ export default function PlanForm() {
                   placeholder="60,90"
                   setChange={e => setPlan({ ...plan, price: e })}
                 />
+
+                {/* <Input
+                  name="price"
+                  placeholder="60,90"
+                  setChange={e => console.log('preco', e)}
+                  // setChange={e => setPlan({ ...plan, price: e.target.value })}
+                /> */}
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PREÇO TOTAL</Label>
-                <Info>{totalPrice}</Info>
+                {/* <Info>{totalPrice}</Info> */}
+                <Input name="totalPrice" disabled value={totalPrice} />
               </FormGroup>
             </Column>
           </Row>

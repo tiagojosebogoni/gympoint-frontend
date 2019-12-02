@@ -19,12 +19,12 @@ export default function Modal({ children, title, isShow, onClose, width }) {
 
 Modal.defaultProps = {
   title: '',
-  width: '400px',
+  width: '600px',
   isShow: false,
 };
 
 Modal.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.element]),
   title: PropTypes.string,
   isShow: PropTypes.bool,
   onClose: PropTypes.func.isRequired,

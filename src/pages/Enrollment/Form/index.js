@@ -24,6 +24,7 @@ import api from '~/services/api';
 
 import { formatCurrencyBR } from '~/util';
 import { enrollmentsSaveRequest } from '~/store/modules/enrollment/actions';
+import Input from '~/components/Input';
 
 export default function EnrollmentForm() {
   const dispath = useDispatch();
@@ -147,6 +148,8 @@ export default function EnrollmentForm() {
         <form id="formEnrollment" onSubmit={handleSubmit}>
           <Label>ALUNO</Label>
           <AsyncSelect
+            placeholder="Digite o nome do aluno..."
+            noOptionsMessage={() => 'Nenhum registro localizado'}
             cacheOptions
             name="student_id"
             loadOptions={loadStudents}
@@ -161,6 +164,8 @@ export default function EnrollmentForm() {
               <FormGroup>
                 <Label>PLANO</Label>
                 <Select
+                  placeholder="Selecione..."
+                  noOptionsMessage={() => 'Nenhum registro localizado'}
                   cacheOptions
                   options={plans}
                   getOptionValue={option => option.id}
@@ -173,7 +178,8 @@ export default function EnrollmentForm() {
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE INÍCIO</Label>
-                <input
+                <Input
+                  name="date"
                   type="date"
                   onChange={e => setStartDate(e.target.value)}
                   value={startDate}
