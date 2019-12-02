@@ -189,13 +189,19 @@ export default function EnrollmentForm() {
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE TÉRMINO</Label>
-                <Info>{endDateFormatted}</Info>
+                <Input
+                  name="endDateFormatted"
+                  disabled
+                  value={endDateFormatted}
+                />
+                {/* <Info>{endDateFormatted}</Info> */}
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>VALOR FINAL</Label>
-                <Info>{priceFormatted}</Info>
+                <Input name="priceFormatted" disabled value={priceFormatted} />
+                {/* <Info>{priceFormatted}</Info> */}
               </FormGroup>
             </Column>
           </Row>

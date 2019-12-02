@@ -21,11 +21,12 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
 
+  align-items: center;
+
   svg {
     cursor: pointer;
   }
   margin-bottom: 10px;
-  border-bottom: 1px solid #dddddd;
 `;
 
 export const Title = styled.h3`
@@ -34,4 +35,6 @@ export const Title = styled.h3`
 
 export const Content = styled.div`
   margin-top: 10px;
+  border-top: 1px solid #dddddd;
+  padding-top: 10px;
 `;

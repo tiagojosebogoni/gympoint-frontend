@@ -58,6 +58,10 @@ export default createGlobalStyle`
       }
   }
 
+  input:disabled {
+    cursor: not-allowed;
+  }
+
   
 
   
@@ -75,6 +79,10 @@ export default createGlobalStyle`
       &:disabled{
         background: ${colors.disabled}
       }
+  }
+
+  textarea:disabled {
+    cursor: not-allowed;
   }
 
   
