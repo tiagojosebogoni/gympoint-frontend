@@ -19,7 +19,7 @@ export default function DatePicker({ name, onChange }) {
         pickerRef.clear();
       },
     });
-  }, [ref.current, fieldName]);
+  }, [ref.current, fieldName]); // eslint-disable-line
 
   function handleChange(date) {
     console.log(date);

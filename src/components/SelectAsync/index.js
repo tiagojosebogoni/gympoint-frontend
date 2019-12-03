@@ -9,7 +9,6 @@ import { useField } from '@rocketseat/unform';
 
 export default function ReactSelectAsync({
   name,
-  label,
   options,
   multiple,
   asyncFunc,
@@ -18,14 +17,17 @@ export default function ReactSelectAsync({
   ...rest
 }) {
   const ref = useRef(null);
+
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
   function parseSelectValue(selectRef) {
+    console.log(selectRef.state.value);
+
     const selectValue = selectRef.state.value;
     if (!multiple) {
       return selectValue ? selectValue.id : '';
     }
-    console.log('SelectValue', selectValue);
+
     return selectValue ? selectValue.map(option => option.id) : [];
   }
 
@@ -41,14 +43,11 @@ export default function ReactSelectAsync({
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
-  const loadOptions = value => asyncFunc(value);
-
-  const debouncedLoadOptions = debounce(loadOptions, 500, {
-    leading: true,
-  });
-
   function getDefaultValue() {
     if (!defaultValue) return null;
+
+    // console.log('DEFAULT:', defaultValue);
+    // console.log('OPTIONS:', options);
 
     if (!multiple) {
       return options.find(option => option.id === defaultValue);
@@ -56,6 +55,11 @@ export default function ReactSelectAsync({
 
     return options.filter(option => defaultValue.includes(option.id));
   }
+
+  const debouncedLoadOptions = debounce(value => {
+    console.log('value', value);
+    return asyncFunc(value);
+  }, 500);
 
   return (
     <>
@@ -74,19 +78,18 @@ export default function ReactSelectAsync({
       /> */}
       <AsyncSelect
         name={fieldName}
-        aria-label={fieldName}
-        loadOptions={inputValue => debouncedLoadOptions(inputValue)}
+        // loadOptions={value => debouncedLoadOptions(value)}
         isMulti={multiple}
+        // options={value => debouncedLoadOptions(value)}
+        options={options}
+        defaultOptions={defaultOptions}
         defaultValue={getDefaultValue()}
-        // defaultOptions={defaultOptions}
         placeholder="Selecione..."
         noOptionsMessage={() => 'Nenhum registro localizado'}
+        loadingMessage={() => 'Carregando...'}
         cacheOptions
-        name="student_id"
-        loadOptions={options}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.name}
-        // onChange={e => setStudentSelected(e)}
         ref={ref}
         {...rest}
       />

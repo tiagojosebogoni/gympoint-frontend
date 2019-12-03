@@ -17,6 +17,7 @@ export default function ReactSelect({
 
   function parseSelectValue(selectRef) {
     const selectValue = selectRef.state.value;
+
     if (!multiple) {
       return selectValue ? selectValue.id : '';
     }
@@ -72,6 +73,7 @@ export default function ReactSelect({
         getOptionLabel={option => option.name}
         placeholder="Selecione..."
         noOptionsMessage={() => 'Nenhum registro localizado'}
+        loadingMessage={() => 'Carregando...'}
         cacheOptions
         // onChange={e => setPlanSelected(e)}
         {...rest}

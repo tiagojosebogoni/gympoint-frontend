@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 // import colors from '~/styles/colors';
 
-export const CustomButton = styled.button.attrs({
-  type: 'button',
-})`
+export const CustomButton = styled.button`
   height: 34px;
   background: ${props => props.color};
   border: 0;
