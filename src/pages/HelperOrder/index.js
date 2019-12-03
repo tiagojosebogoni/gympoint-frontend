@@ -69,7 +69,7 @@ export default function HelperOrderList() {
       await api.post(`help-orders/${order.id}/answer`, {
         answer: data.answer,
       });
-      toast.success('Resposta realizada com sucesso');
+      toast.success('Resposta enviada com sucesso');
       setShowModal(!showModal);
       resetForm();
       loadOrders();

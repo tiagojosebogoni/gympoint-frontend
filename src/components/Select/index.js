@@ -1,23 +1,15 @@
 import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
-
 import { useField } from '@rocketseat/unform';
 
-// import { Container } from './styles';
-
-export default function ReactSelect({
-  name,
-  label,
-  options,
-  multiple,
-  ...rest
-}) {
+export default function ReactSelect({ name, options, multiple, ...rest }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
   function parseSelectValue(selectRef) {
-    const selectValue = selectRef.state.value;
-
+    // const selectValue = selectRef.state.value;
+    const selectValue = selectRef.props.value;
     if (!multiple) {
       return selectValue ? selectValue.id : '';
     }
@@ -29,7 +21,7 @@ export default function ReactSelect({
     registerField({
       name: fieldName,
       ref: ref.current,
-      path: 'state.value',
+      path: 'state.value.id',
       parseValue: parseSelectValue,
       clearValue: selectRef => {
         selectRef.select.clearValue();
@@ -39,6 +31,16 @@ export default function ReactSelect({
 
   function getDefaultValue() {
     if (!defaultValue) return null;
+
+    // console.log('current', ref.current.state.value);
+
+    // console.log('default', defaultValue);
+
+    // console.log('Default', defaultValue, ref.current);
+    // return ref.current.select.state.selectValue;
+
+    // if (!defaultValue) return null;
+
     if (!multiple) {
       return options.find(option => option.id === defaultValue);
     }
@@ -48,20 +50,6 @@ export default function ReactSelect({
 
   return (
     <>
-      {label && <label htmlFor={fieldName}>{label}</label>}
-
-      {/* <Select
-        name={fieldName}
-        aria-label={fieldName}
-        options={options}
-        isMulti={multiple}
-        defaultValue={getDefaultValue()}
-        ref={ref}
-        getOptionValue={option => option.id}
-        getOptionLabel={option => option.title}
-        {...rest}
-      /> */}
-
       <Select
         name={fieldName}
         aria-label={fieldName}
@@ -71,11 +59,9 @@ export default function ReactSelect({
         ref={ref}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.name}
-        placeholder="Selecione..."
         noOptionsMessage={() => 'Nenhum registro localizado'}
         loadingMessage={() => 'Carregando...'}
-        cacheOptions
-        // onChange={e => setPlanSelected(e)}
+        placeholder="Selecione..."
         {...rest}
       />
 
@@ -83,3 +69,13 @@ export default function ReactSelect({
     </>
   );
 }
+
+ReactSelect.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  multiple: PropTypes.bool,
+};
+
+ReactSelect.defaultProps = {
+  multiple: false,
+};

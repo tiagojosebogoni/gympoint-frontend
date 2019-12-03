@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import { Form } from '@rocketseat/unform';
 import { format, addMonths, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-// import AsyncSelect from 'react-select/async';
-// import Select from 'react-select';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
@@ -23,33 +23,41 @@ import SelectAsync from '~/components/SelectAsync';
 
 import api from '~/services/api';
 
-import { formatCurrencyBR } from '~/util';
+import { formatCurrencyBR, formatDatePicker } from '~/util';
 import { enrollmentsSaveRequest } from '~/store/modules/enrollment/actions';
 import Input from '~/components/Input';
+import InputInfo from '~/components/InputInfo';
+
+const schema = Yup.object().shape({
+  student_id: Yup.number().required('O Aluno é obrigatório'),
+  plan_id: Yup.number().required('O Plano é obrigatório'),
+  start_date: Yup.date().required('A data de início é obrigatória'),
+});
 
 export default function EnrollmentForm() {
   const dispath = useDispatch();
   const { id } = useParams();
 
-  const [enrollment, setEnrollment] = useState({});
+  const [enrollment, setEnrollment] = useState(null);
   const [plans, setPlans] = useState([]);
   const [students, setStudents] = useState([]);
-
-  const [studentSelected, setStudentSelected] = useState({});
-  const [startDate, setStartDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const [studentSelected, setStudentSelected] = useState(null);
+  const [startDate, setStartDate] = useState(null);
   const [planSelected, setPlanSelected] = useState(null);
-  const [endDateFormatted, setEndDateFormatted] = useState(null);
-  const [priceFormatted, setPriceFormatted] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [price, setPrice] = useState(null);
+  const [endDateFormatted, setEndDateFormatted] = useState('');
+  const [priceFormatted, setPriceFormatted] = useState('');
 
   async function loadEnrollment(id) {
     const res = await api.get(`enrollments/${id}`);
-
     const data = res.data;
+    const startDateFormatted = formatDatePicker(data.start_date);
 
-    setEnrollment(data);
-    setStartDate(format(parseISO(data.start_date), 'yyyy-MM-dd'));
+    setEnrollment({
+      ...data,
+      start_date: startDateFormatted,
+    });
+
+    setStartDate(startDateFormatted);
     setStudentSelected(data.student);
     setPlanSelected(data.plan);
   }
@@ -88,34 +96,27 @@ export default function EnrollmentForm() {
     }
   }, [id]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (studentSelected && planSelected) {
-      const dataSubmit = {
-        student_id: studentSelected.id,
-        plan_id: planSelected.id,
-        start_date: parseISO(startDate),
-        price, // será calculado pela api
-        end_data: endDate, // será calculado pela api
-      };
+  function handleSubmit(values) {
+    const data = {
+      ...values,
+      id,
+    };
 
-      console.log('Values:', dataSubmit);
-      dispath(enrollmentsSaveRequest(dataSubmit));
-    }
+    dispath(enrollmentsSaveRequest(data));
   }
 
   useMemo(() => {
     if (startDate && planSelected) {
-      const end = addMonths(parseISO(startDate), planSelected.duration);
-      setEndDate(end);
+      const parseStartDate = new Date(startDate);
+
+      const end = addMonths(parseStartDate, planSelected.duration);
+
       setEndDateFormatted(
         format(end, 'dd/MM/yyyy', {
           locale: pt,
         })
       );
-
       const price = planSelected.duration * planSelected.price;
-      setPrice(price);
       setPriceFormatted(formatCurrencyBR(price));
     }
   }, [startDate, planSelected]);
@@ -123,6 +124,9 @@ export default function EnrollmentForm() {
   useEffect(() => {
     loadPlans();
     loadStudents();
+    setEnrollment({
+      start_date: format(new Date(), 'yyyy-MM-dd'),
+    });
   }, []);
 
   return (
@@ -146,51 +150,30 @@ export default function EnrollmentForm() {
       </HeaderPage>
 
       <Panel>
-        <form id="formEnrollment" onSubmit={handleSubmit}>
+        <Form
+          id="formEnrollment"
+          initialData={enrollment}
+          schema={schema}
+          onSubmit={handleSubmit}
+        >
           <Label>ALUNO</Label>
-          {/* <AsyncSelect
-            placeholder="Digite o nome do aluno..."
-            noOptionsMessage={() => 'Nenhum registro localizado'}
-            cacheOptions
-            name="student_id"
-            loadOptions={loadStudents}
-            getOptionValue={option => option.id}
-            getOptionLabel={option => option.name}
-            // defaultValue={enrollment.student}
-            value={enrollment.student}
-            onChange={e => setStudentSelected(e)}
-          /> */}
           <SelectAsync
             placeholder="Digite o nome do aluno..."
-            noOptionsMessage={() => 'Nenhum registro localizado'}
-            cacheOptions
             name="student_id"
-            loadOptions={loadStudents}
-            value={enrollment.student}
+            options={students}
+            value={studentSelected}
             onChange={e => setStudentSelected(e)}
+            asyncFunc={loadStudents}
           />
           <Row>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>PLANO</Label>
-                {/* <Select
-                  placeholder="Selecione..."
-                  noOptionsMessage={() => 'Nenhum registro localizado'}
-                  cacheOptions
-                  options={plans}
-                  getOptionValue={option => option.id}
-                  getOptionLabel={option => option.title}
-                  value={enrollment.plan}
-                  onChange={e => setPlanSelected(e)}
-                /> */}
 
                 <Select
-                  name="plan"
-                  placeholder="Selecione..."
-                  noOptionsMessage={() => 'Nenhum registro localizado'}
-                  cacheOptions
+                  name="plan_id"
                   options={plans}
-                  value={enrollment.plan}
+                  value={planSelected}
                   getOptionLabel={option => option.title}
                   onChange={e => setPlanSelected(e)}
                 />
@@ -200,33 +183,26 @@ export default function EnrollmentForm() {
               <FormGroup>
                 <Label>DATA DE INÍCIO</Label>
                 <Input
-                  name="date"
+                  name="start_date"
                   type="date"
-                  onChange={e => setStartDate(e.target.value)}
-                  value={startDate}
+                  onChange={e => setStartDate(parseISO(e.target.value))}
                 />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>DATA DE TÉRMINO</Label>
-                <Input
-                  name="endDateFormatted"
-                  disabled
-                  value={endDateFormatted}
-                />
-                {/* <Info>{endDateFormatted}</Info> */}
+                <InputInfo value={endDateFormatted} />
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="3">
               <FormGroup>
                 <Label>VALOR FINAL</Label>
-                <Input name="priceFormatted" disabled value={priceFormatted} />
-                {/* <Info>{priceFormatted}</Info> */}
+                <InputInfo value={priceFormatted} />
               </FormGroup>
             </Column>
           </Row>
-        </form>
+        </Form>
       </Panel>
     </Container>
   );

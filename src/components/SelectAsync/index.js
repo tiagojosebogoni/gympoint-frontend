@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async';
 
 import { debounce } from 'lodash';
@@ -12,18 +13,13 @@ export default function ReactSelectAsync({
   options,
   multiple,
   asyncFunc,
-  defaultOptions,
-  setDefaultValue,
   ...rest
 }) {
   const ref = useRef(null);
-
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
   function parseSelectValue(selectRef) {
-    console.log(selectRef.state.value);
-
-    const selectValue = selectRef.state.value;
+    const selectValue = selectRef.props.value;
     if (!multiple) {
       return selectValue ? selectValue.id : '';
     }
@@ -35,7 +31,7 @@ export default function ReactSelectAsync({
     registerField({
       name: fieldName,
       ref: ref.current,
-      path: 'state.value',
+      path: 'props.value.id',
       parseValue: parseSelectValue,
       clearValue: selectRef => {
         selectRef.select.clearValue();
@@ -43,11 +39,14 @@ export default function ReactSelectAsync({
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
+  const loadOptions = value => asyncFunc(value);
+
+  const debouncedLoadOptions = debounce(loadOptions, 500, {
+    leading: true,
+  });
+
   function getDefaultValue() {
     if (!defaultValue) return null;
-
-    // console.log('DEFAULT:', defaultValue);
-    // console.log('OPTIONS:', options);
 
     if (!multiple) {
       return options.find(option => option.id === defaultValue);
@@ -56,40 +55,20 @@ export default function ReactSelectAsync({
     return options.filter(option => defaultValue.includes(option.id));
   }
 
-  const debouncedLoadOptions = debounce(value => {
-    console.log('value', value);
-    return asyncFunc(value);
-  }, 500);
-
   return (
     <>
-      {/* <AsyncSelect
-        name={fieldName}
-        aria-label={fieldName}
-        ref={ref}
-        loadOptions={inputValue => debouncedLoadOptions(inputValue)}
-        isMulti={multiple}
-        getOptionValue={option => option.id}
-        getOptionLabel={option => option.title}
-        placeholder=""
-        cacheOptions
-        defaultOptions={defaultOptions}
-        {...rest}
-      /> */}
       <AsyncSelect
         name={fieldName}
-        // loadOptions={value => debouncedLoadOptions(value)}
-        isMulti={multiple}
-        // options={value => debouncedLoadOptions(value)}
+        aria-label={fieldName}
+        loadOptions={inputValue => debouncedLoadOptions(inputValue)}
         options={options}
-        defaultOptions={defaultOptions}
+        isMulti={multiple}
         defaultValue={getDefaultValue()}
-        placeholder="Selecione..."
-        noOptionsMessage={() => 'Nenhum registro localizado'}
-        loadingMessage={() => 'Carregando...'}
-        cacheOptions
         getOptionValue={option => option.id}
         getOptionLabel={option => option.name}
+        noOptionsMessage={() => 'Nenhum registro localizado'}
+        loadingMessage={() => 'Carregando...'}
+        placeholder="Selecione..."
         ref={ref}
         {...rest}
       />
@@ -98,3 +77,13 @@ export default function ReactSelectAsync({
     </>
   );
 }
+
+ReactSelectAsync.propTypes = {
+  name: PropTypes.string.isRequired,
+  multiple: PropTypes.bool,
+  asyncFunc: PropTypes.func.isRequired,
+};
+
+ReactSelectAsync.defaultProps = {
+  multiple: false,
+};

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import ReactDatePicker from 'react-datepicker';
 import colors from '~/styles/colors';
 
-export const CustomDatePicker = styled(ReactDatePicker)`
+export const CustomInput = styled.input.attrs({
+  disabled: true,
+})`
   background: rgba(255, 255, 255, 1);
   border: 1px solid ${colors.border};
   border-radius: 4px;
