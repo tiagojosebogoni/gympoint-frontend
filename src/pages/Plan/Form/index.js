@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
-import * as Yup from 'yup';
 
 import { Container, Row, Column } from '~/components/Grid';
 import Title from '~/components/Title';
