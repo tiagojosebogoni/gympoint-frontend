@@ -61,7 +61,7 @@ export default function EnrollmentList() {
   return (
     <Container>
       <HeaderPage>
-        <Title>Gerenciando de Matrículas</Title>
+        <Title>Gerenciando matrícula</Title>
         <Controls>
           <ButtonLink to="/matriculas/new">
             <MdAdd size={24} color="#fff" title="Adicionar Novo Enrollmento" />
@@ -136,6 +136,7 @@ export default function EnrollmentList() {
                 totalPage={pagination.totalPage}
                 total={pagination.total}
               />
+              <br />
               {pagination.totalPage > 1 && (
                 <Pagination
                   page={pagination.page}

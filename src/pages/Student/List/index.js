@@ -120,6 +120,7 @@ export default function StudentList() {
                 totalPage={students.totalPage}
                 total={students.total}
               />
+              <br />
               {students.totalPage > 1 && (
                 <Pagination
                   page={students.page}

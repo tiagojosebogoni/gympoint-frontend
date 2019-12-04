@@ -4,7 +4,7 @@ import colors from '~/styles/colors';
 export const CustomInput = styled.input.attrs({
   disabled: true,
 })`
-  background: rgba(255, 255, 255, 1);
+  background-color: #f5f5f5 !important;
   border: 1px solid ${colors.border};
   border-radius: 4px;
   height: 40px;

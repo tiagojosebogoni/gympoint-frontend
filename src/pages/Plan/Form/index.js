@@ -18,6 +18,7 @@ import Button from '~/components/Button';
 import colors from '~/styles/colors';
 import { Panel } from '~/components/Panel/styles';
 import Label from '~/components/Label';
+import InputInfo from '~/components/InputInfo';
 import { FormGroup } from '~/components/FormGroup/styles';
 
 import { plansSaveRequest } from '~/store/modules/plan/actions';
@@ -32,7 +33,6 @@ const schema = Yup.object().shape({
     .max(60, 'A duração dever ser no máximo 60 meses')
     .required('A duração em meses é obrigatório'),
   price: Yup.string().required('O preço é obrigatório'),
-  totalPrice: Yup.string(),
 });
 
 export default function PlanForm() {
@@ -71,7 +71,7 @@ export default function PlanForm() {
   return (
     <Container>
       <HeaderPage>
-        <Title>{id > 0 ? 'Edição de Plano' : 'Cadastro de Plano'}</Title>
+        <Title>{id > 0 ? 'Edição de plano' : 'Cadastro de plano'}</Title>
         <Controls>
           <ButtonLink to="/planos" color={colors.second}>
             <MdArrowBack size={24} color="#fff" />
@@ -87,7 +87,6 @@ export default function PlanForm() {
       </HeaderPage>
 
       <Panel>
-        {/* {JSON.stringify(plan)} */}
         <Form
           id="formPlan"
           initialData={plan}
@@ -116,7 +115,6 @@ export default function PlanForm() {
             <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PREÇO MENSAL</Label>
-
                 <InputCurrency
                   name="price"
                   value={plan.price}
@@ -127,8 +125,7 @@ export default function PlanForm() {
             <Column mobile="12" desktop="4">
               <FormGroup>
                 <Label>PREÇO TOTAL</Label>
-                {/* <Info>{totalPrice}</Info> */}
-                <Input name="totalPrice" disabled value={totalPrice} />
+                <InputInfo value={totalPrice} />
               </FormGroup>
             </Column>
           </Row>

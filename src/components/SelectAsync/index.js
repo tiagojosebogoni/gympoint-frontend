@@ -39,9 +39,9 @@ export default function ReactSelectAsync({
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
-  const loadOptions = value => asyncFunc(value);
+  const loadValues = value => asyncFunc(value);
 
-  const debouncedLoadOptions = debounce(loadOptions, 500, {
+  const debouncedLoadOptions = debounce(loadValues, 500, {
     leading: true,
   });
 

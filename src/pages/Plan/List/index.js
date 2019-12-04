@@ -56,14 +56,12 @@ export default function PlanList() {
   return (
     <Container>
       <HeaderPage>
-        <Title>Gerenciando Planos</Title>
+        <Title>Gerenciando planos</Title>
         <Controls>
           <ButtonLink to="/planos/new">
             <MdAdd size={24} color="#fff" title="Adicionar Novo Plano" />
             <span>Cadastrar</span>
           </ButtonLink>
-
-          {/* <Link to="/planos/new">Novo</Link> */}
 
           <InputSearch
             handleSearch={handleSearchMain}
@@ -121,6 +119,7 @@ export default function PlanList() {
                 totalPage={plans.totalPage}
                 total={plans.total}
               />
+              <br />
               {plans.totalPage > 1 && (
                 <Pagination
                   page={plans.page}

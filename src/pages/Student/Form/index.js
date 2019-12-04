@@ -39,11 +39,9 @@ const schema = Yup.object().shape({
 export default function StudentForm() {
   const { id } = useParams();
   const [student, setStudent] = useState({});
-  // const student = useSelector(state => state.student.student);
   const dispath = useDispatch();
 
   function handleSubmit(data) {
-    // console.tron.log('Submit: ', data);
     dispath(studentsSaveRequest({ ...data, id }));
   }
 
@@ -61,7 +59,7 @@ export default function StudentForm() {
   return (
     <Container>
       <HeaderPage>
-        <Title>{id > 0 ? 'Edição de Aluno' : 'Cadastro de Aluno'}</Title>
+        <Title>{id > 0 ? 'Edição de aluno' : 'Cadastro de aluno'}</Title>
         <Controls>
           <ButtonLink to="/alunos" color={colors.second}>
             <MdArrowBack size={24} color="#fff" />

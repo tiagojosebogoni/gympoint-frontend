@@ -133,7 +133,7 @@ export default function EnrollmentForm() {
     <Container>
       <HeaderPage>
         <Title>
-          {id > 0 ? 'Edição de Matrículas' : 'Cadastro de Matrículas'}
+          {id > 0 ? 'Edição de matrícula' : 'Cadastro de matrícula'}
         </Title>
         <Controls>
           <ButtonLink to="/matriculas" color={colors.second}>
@@ -165,6 +165,7 @@ export default function EnrollmentForm() {
             onChange={e => setStudentSelected(e)}
             asyncFunc={loadStudents}
           />
+          <br />
           <Row>
             <Column mobile="12" desktop="3">
               <FormGroup>
