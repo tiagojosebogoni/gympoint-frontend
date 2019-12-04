@@ -32,15 +32,6 @@ export default function ReactSelect({ name, options, multiple, ...rest }) {
   function getDefaultValue() {
     if (!defaultValue) return null;
 
-    // console.log('current', ref.current.state.value);
-
-    // console.log('default', defaultValue);
-
-    // console.log('Default', defaultValue, ref.current);
-    // return ref.current.select.state.selectValue;
-
-    // if (!defaultValue) return null;
-
     if (!multiple) {
       return options.find(option => option.id === defaultValue);
     }

@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-
+import PropTypes from 'prop-types';
 import { useField } from '@rocketseat/unform';
 
 import { CustomInputCurrency } from './styles';
 
-export default function InputCurrency({ name, disabled, setChange }) {
+export default function InputCurrency({ name, ...rest }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
@@ -15,29 +15,25 @@ export default function InputCurrency({ name, disabled, setChange }) {
       name: fieldName,
       ref: ref.current,
       path: 'props.value',
-      clearValue: el => {
-        setSelected(0.0);
-      },
     });
   }, [ref.current, fieldName]); // eslint-disable-line
-
-  function handleChange(e) {
-    setSelected(e);
-    setChange(e);
-  }
 
   return (
     <>
       <CustomInputCurrency
-        disabled={disabled}
         name={fieldName}
+        onChangeEvent={e => setSelected(e.target.value)}
         value={selected}
-        onChange={handleChange}
-        ref={ref}
         decimalSeparator=","
         thousandSeparator="."
+        ref={ref}
+        {...rest}
       />
       {error && <span>{error}</span>}
     </>
   );
 }
+
+InputCurrency.propTypes = {
+  name: PropTypes.string.isRequired,
+};

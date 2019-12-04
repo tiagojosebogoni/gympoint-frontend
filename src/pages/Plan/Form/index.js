@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo } from 'react';
-
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -44,7 +43,6 @@ export default function PlanForm() {
   const totalPrice = useMemo(() => {
     let total = 0.0;
 
-    console.log(plan.price);
     if (plan.duration && plan.price) {
       total = parseInt(plan.duration, 10) * formatCurrency(plan.price);
     }
@@ -60,16 +58,13 @@ export default function PlanForm() {
     if (id) {
       async function loadPlan() {
         const res = await api.get(`plans/${id}`);
-        setPlan(res.data);
+        setPlan({
+          ...res.data,
+          price: formatCurrencyBR(res.data.price, false),
+        });
       }
 
       loadPlan();
-    } else {
-      setPlan({
-        duration: 1,
-        price: 0.0,
-        total: 0.0,
-      });
     }
   }, [id]);
 
@@ -92,6 +87,7 @@ export default function PlanForm() {
       </HeaderPage>
 
       <Panel>
+        {/* {JSON.stringify(plan)} */}
         <Form
           id="formPlan"
           initialData={plan}
@@ -100,7 +96,11 @@ export default function PlanForm() {
         >
           <Input name="id" type="hidden" />
           <Label>TÍTULO DO PLANO</Label>
-          <Input name="title" placeholder="Plano Ouro" />
+          <Input
+            name="title"
+            placeholder="Plano Ouro"
+            onChange={e => setPlan({ ...plan, name: e.target.value })}
+          />
           <Row>
             <Column mobile="12" desktop="4">
               <FormGroup>
@@ -119,16 +119,9 @@ export default function PlanForm() {
 
                 <InputCurrency
                   name="price"
-                  placeholder="60,90"
-                  setChange={e => setPlan({ ...plan, price: e })}
+                  value={plan.price}
+                  onChange={e => setPlan({ ...plan, price: e })}
                 />
-
-                {/* <Input
-                  name="price"
-                  placeholder="60,90"
-                  setChange={e => console.log('preco', e)}
-                  // setChange={e => setPlan({ ...plan, price: e.target.value })}
-                /> */}
               </FormGroup>
             </Column>
             <Column mobile="12" desktop="4">

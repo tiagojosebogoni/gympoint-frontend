@@ -100,7 +100,6 @@ function* deleteEnrollment({ payload }) {
     yield put(enrollmentsDeleteSuccess(id));
   } catch (error) {
     toast.error('Erro remover matrículas!');
-    // console.log(error);
     yield put(enrollmentsFailure());
   }
 }

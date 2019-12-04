@@ -82,7 +82,6 @@ function* deletePlan({ payload }) {
     yield put(plansDeleteSuccess(id));
   } catch (error) {
     toast.error('Erro remover planos!');
-    // console.log(error);
     yield put(plansFailure());
   }
 }

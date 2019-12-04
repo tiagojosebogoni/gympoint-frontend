@@ -1,9 +1,21 @@
 import { format, parseISO } from 'date-fns';
 
-export const { format: formatCurrencyBR } = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-});
+export const formatCurrencyBR = (value, prefix = true) => {
+  let numberFormatted;
+
+  if (prefix) {
+    numberFormatted = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+  } else {
+    numberFormatted = new Intl.NumberFormat('pt-BR', {
+      currency: 'BRL',
+    }).format(value);
+  }
+
+  return numberFormatted;
+};
 
 export const numberOnly = value => {
   return Number(value.replace(/\D/g, ''));
@@ -16,8 +28,6 @@ export const formatCurrency = value => {
   const first = `${value.substr(0, index).replace(/,/g, '')}`;
   const decimal = `${value.substr(index).replace(',', '.')}`;
   const currency = Number(`${first}${decimal}`);
-
-  // console.log('Currency: ', currency);
 
   return currency;
 };

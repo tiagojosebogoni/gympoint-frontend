@@ -14,16 +14,8 @@ export default function MaskInput({ name, ...rest }) {
       name: fieldName,
       ref: ref.current,
       path: 'props.value',
-      clearValue: el => {
-        setSelected(0.0);
-      },
     });
   }, [ref.current, fieldName]); // eslint-disable-line
-
-  function handleChange(e) {
-    console.tron.log(e);
-    // setSelected(e);
-  }
 
   return (
     <>
