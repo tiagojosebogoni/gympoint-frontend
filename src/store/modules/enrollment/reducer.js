@@ -1,12 +1,12 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  enrollments: {
+  enrollments: [],
+  pagination: {
     page: 1,
-    perPage: 5,
+    perPage: 10,
     total: 0,
     totalPage: 0,
-    data: [],
   },
   enrollment: {},
   loading: false,
@@ -22,6 +22,7 @@ export default function enrollment(state = INITIAL_STATE, action) {
 
       case '@enrollment/ENROLLMENT_SEARCH_SUCCESS': {
         draft.enrollments = action.payload.data;
+        draft.pagination = action.payload.pagination;
         draft.loading = false;
         break;
       }

@@ -85,7 +85,7 @@ export default function HelperOrderList() {
         <Loading>Carregando...</Loading>
       ) : (
         <Panel>
-          {orders.total === 0 ? (
+          {pagination.total === 0 ? (
             <NoResultFound />
           ) : (
             <>

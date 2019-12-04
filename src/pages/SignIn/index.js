@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input } from '@rocketseat/unform';
+import { Form } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { Container } from './styles';
@@ -8,6 +8,7 @@ import logo from '~/assets/logo.png';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 import Label from '~/components/Label';
+import Input from '~/components/Input';
 
 const schema = Yup.object().shape({
   email: Yup.string()

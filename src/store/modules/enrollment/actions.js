@@ -8,7 +8,7 @@ export function enrollmentsSearchRequest(data) {
 export function enrollmentsSearchSuccess(data) {
   return {
     type: '@enrollment/ENROLLMENT_SEARCH_SUCCESS',
-    payload: { data },
+    payload: data,
   };
 }
 

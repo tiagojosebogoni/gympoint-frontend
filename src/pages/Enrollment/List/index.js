@@ -29,6 +29,7 @@ import InputSearch from '~/components/InputSearch';
 export default function EnrollmentList() {
   const [termSearch, setTermSearch] = useState('');
   const enrollments = useSelector(state => state.enrollment.enrollments);
+  const pagination = useSelector(state => state.enrollment.pagination);
   const loading = useSelector(state => state.enrollment.loading);
   const dispatch = useDispatch();
 
@@ -78,7 +79,7 @@ export default function EnrollmentList() {
         <Loading>Carregando...</Loading>
       ) : (
         <Panel>
-          {enrollments.total === 0 ? (
+          {pagination.total === 0 ? (
             <NoResultFound />
           ) : (
             <>
@@ -94,10 +95,12 @@ export default function EnrollmentList() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {enrollments.data.map(enrollment => (
+                  {enrollments.map(enrollment => (
                     <Tr key={String(enrollment.id)}>
                       <Td>{enrollment.student.name}</Td>
-                      <Td align="center">{enrollment.plan.title}</Td>
+                      <Td align="center">
+                        {enrollment.plan ? enrollment.plan.title : ''}
+                      </Td>
                       <Td align="center">{enrollment.startDateFormatted}</Td>
                       <Td align="center">{enrollment.endDateFormatted}</Td>
                       <Td align="center">
@@ -128,15 +131,15 @@ export default function EnrollmentList() {
               </Table>
               <br />
               <PaginationInfo
-                page={enrollments.page}
-                perPage={enrollments.perPage}
-                totalPage={enrollments.totalPage}
-                total={enrollments.total}
+                page={pagination.page}
+                perPage={pagination.perPage}
+                totalPage={pagination.totalPage}
+                total={pagination.total}
               />
-              {enrollments.totalPage > 1 && (
+              {pagination.totalPage > 1 && (
                 <Pagination
-                  page={enrollments.page}
-                  totalPage={enrollments.totalPage}
+                  page={pagination.page}
+                  totalPage={pagination.totalPage}
                   align="center"
                   onLoadPage={handleLoadPage}
                 />

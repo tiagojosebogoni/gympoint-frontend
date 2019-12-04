@@ -41,7 +41,11 @@ function* searchEnrollments({ payload }) {
         }
       ),
     }));
-    yield put(enrollmentsSearchSuccess({ ...res.data, data }));
+
+    delete res.data.data;
+    const pagination = res.data;
+
+    yield put(enrollmentsSearchSuccess({ data, pagination }));
   } catch (error) {
     toast.error('Erro pesquisar matrículas!');
     yield put(enrollmentsFailure());
