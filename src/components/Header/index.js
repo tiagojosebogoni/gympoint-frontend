@@ -7,6 +7,7 @@ import logo from '~/assets/logo-header.png';
 
 import { Container, Content, Profile, Menu } from './styles';
 import { signOut } from '~/store/modules/auth/actions';
+import Notifications from '../Notifications';
 
 export default function Header() {
   const profile = useSelector(state => state.user.profile);
@@ -49,6 +50,7 @@ export default function Header() {
         </nav>
 
         <aside>
+          <Notifications />
           <Profile>
             <div>
               <strong>{profile.name}</strong>
