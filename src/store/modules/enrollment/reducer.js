@@ -33,7 +33,6 @@ export default function enrollment(state = INITIAL_STATE, action) {
       }
 
       case '@enrollment/ENROLLMENT_SAVE_SUCCESS': {
-        console.tron.log('Chegou...', action);
         draft.enrollment = action.payload.data;
         draft.loading = false;
         break;

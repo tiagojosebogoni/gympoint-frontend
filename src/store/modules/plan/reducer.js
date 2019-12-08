@@ -32,7 +32,6 @@ export default function plan(state = INITIAL_STATE, action) {
       }
 
       case '@plan/PLAN_SAVE_SUCCESS': {
-        console.tron.log('Chegou...', action);
         draft.plan = action.payload.data;
         draft.loading = false;
         break;
