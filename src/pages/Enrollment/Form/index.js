@@ -124,9 +124,6 @@ export default function EnrollmentForm() {
   useEffect(() => {
     loadPlans();
     loadStudents();
-    setEnrollment({
-      start_date: format(new Date(), 'yyyy-MM-dd'),
-    });
   }, []);
 
   return (
