@@ -72,6 +72,7 @@ function* addEnrollment(data) {
 
     history.push('/matriculas');
   } catch (error) {
+    console.log(error);
     toast.error('Erro cadastrar matrícula!');
     yield put(enrollmentsFailure());
   }
