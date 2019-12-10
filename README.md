@@ -36,4 +36,4 @@
 
   http://localhost:3000
 
-![localhost](https://raw.githubusercontent.com/davidfaria/gympoint-frontend/master/assets/localhost.png)
+![localhost](https://raw.githubusercontent.com/davidfaria/gympoint-frontend/master/assets/web.gif)
