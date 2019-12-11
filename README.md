@@ -6,6 +6,11 @@
 <img src="https://raw.githubusercontent.com/davidfaria/gympoint-frontend/master/assets/logo.png">
 </h1>
 
+## Pré requesitos
+
+- OS: Windows, Mac ou Linux
+- Softwares: Browser, Node , NPM e Yarn
+
 ## Como utilizar
 
 - Download / Clone o repositório:
@@ -17,7 +22,7 @@
 - Instalando as dependências do package.json:
 
   ```
-  yarn install
+  cd gympoint-frontend && yarn install
   ```
 
 - Configurar as variáveis de ambiente
@@ -35,5 +40,10 @@
 - Teste utilizando o browser.
 
   http://localhost:3000
+
+  ```
+  user: admin@gympoint.com
+  password: 123456
+  ```
 
 ![localhost](https://raw.githubusercontent.com/davidfaria/gympoint-frontend/master/assets/web.gif)
