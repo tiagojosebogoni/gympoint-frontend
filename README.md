@@ -2,7 +2,7 @@
 <img src="https://raw.githubusercontent.com/davidfaria/gympoint-frontend/master/.github/logo.png">
 </h1>
 <h3 align="center">
-Front-end React.js - GoStack Bootcamp [Rocketseat](https://rocketseat.com.br)
+Front-end React.js - GoStack Bootcamp <a href="https://rocketseat.com.br" target="__blank">Rocketseat</a>
 </h3>
 
 <p align = "center">
@@ -21,7 +21,7 @@ Front-end React.js - GoStack Bootcamp [Rocketseat](https://rocketseat.com.br)
 - Google Chrome Browser [Google](https://www.google.pt/intl/pt-PT/chrome/?brand=CHBD&gclid=CjwKCAiAxMLvBRBNEiwAKhr-nMvKg5nZhwHd__xLE-Mume31jYijN5WLG991vsf4owDGK4VNHWtrEhoCNRgQAvD_BwE&gclsrc=aw.ds)
 - Back-end Gympoint [Back-end-gympoint](https://github.com/davidfaria/gympoint-backend)
 
-## Instruções Font-end
+## Instruções
 
 ```bash
 # download / Clone o repositório:
